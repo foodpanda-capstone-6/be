@@ -1,0 +1,92 @@
+2022/12/20 17:19:06 [Main:::InitLog] log file set to logs/log.txt
+2022/12/20 17:19:06 [Main:::InitLog] Time: 2022-12-20 17:19:06.838294 +0800 +08 m=+0.000734084
+2022/12/20 17:19:45 [Main:::InitLog] log file set to logs/log.txt
+2022/12/20 17:19:45 [Main:::InitLog] Time: 2022-12-20 17:19:45.301447 +0800 +08 m=+0.000939084
+2022/12/20 17:20:03 [Main:::InitLog] log file set to logs/log.txt
+2022/12/20 17:20:03 [Main:::InitLog] Time: 2022-12-20 17:20:03.151413 +0800 +08 m=+0.000652085
+2022/12/20 17:20:15 [Main:::InitLog] log file set to logs/log.txt
+2022/12/20 17:20:15 [Main:::InitLog] Time: 2022-12-20 17:20:15.831186 +0800 +08 m=+0.000682501
+2022/12/20 17:20:31 [Main:::InitLog] log file set to logs/log.txt
+2022/12/20 17:20:31 [Main:::InitLog] Time: 2022-12-20 17:20:31.961232 +0800 +08 m=+0.000955043
+2022/12/20 17:20:43 [Main:::InitLog] log file set to logs/log.txt
+2022/12/20 17:20:43 [Main:::InitLog] Time: 2022-12-20 17:20:43.053588 +0800 +08 m=+0.000892251
+2022/12/20 17:21:21 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:21:21 [Main:::InitLog] Time: 2022-12-20 17:21:21.818841 +0800 +08 m=+0.000944501
+2022/12/20 17:21:44 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:21:44 [Main:::InitLog] Time: 2022-12-20 17:21:44.87066 +0800 +08 m=+0.000836459
+2022/12/20 17:21:51 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:21:51 [Main:::InitLog] Time: 2022-12-20 17:21:51.315621 +0800 +08 m=+0.000705751
+2022/12/20 17:23:38 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:23:38 [Main:::InitLog] Time: 2022-12-20 17:23:38.515786 +0800 +08 m=+0.000651793
+2022/12/20 17:23:38 [ConnectDatabase]
+2022/12/20 17:23:58 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:23:58 [Main:::InitLog] Time: 2022-12-20 17:23:58.782434 +0800 +08 m=+0.000730460
+2022/12/20 17:24:39 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:24:39 [Main:::InitLog] Time: 2022-12-20 17:24:39.206601 +0800 +08 m=+0.000771793
+2022/12/20 17:24:39 [InitEngine] &{LogPath:logs/log.txt DatabaseOpts:0x1049dd5b0}
+2022/12/20 17:24:39 [ConnectDatabase]
+2022/12/20 17:24:47 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:24:47 [Main:::InitLog] Time: 2022-12-20 17:24:47.017845 +0800 +08 m=+0.001227459
+2022/12/20 17:24:47 [ConnectDatabase]
+2022/12/20 17:25:43 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:25:43 [Main:::InitLog] Time: 2022-12-20 17:25:43.103794 +0800 +08 m=+0.000997501
+2022/12/20 17:25:43 [ConnectDatabase]
+2022/12/20 17:25:43 [ConnectDatabase] &{DriverName:sqlite3 DatabaseOpts_SQL:<nil>}
+2022/12/20 17:27:33 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 17:27:33 [Main:::InitLog] Time: 2022-12-20 17:27:33.525293 +0800 +08 m=+0.000726418
+2022/12/20 17:27:33 [ConnectDatabase]
+2022/12/20 17:27:33 [Engine::ConnectDatabase::sqlite3] file cannot be opened.
+2022/12/20 18:30:46 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:30:46 [Main:::InitLog] Time: 2022-12-20 18:30:46.96637 +0800 +08 m=+0.000888834
+2022/12/20 18:30:46 [ConnectDatabase]
+2022/12/20 18:30:46 [Engine::ConnectDatabase::sqlite3] file cannot be opened.
+2022/12/20 18:32:30 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:32:30 [Main:::InitLog] Time: 2022-12-20 18:32:30.82114 +0800 +08 m=+0.000416085
+2022/12/20 18:32:30 [ConnectDatabase]
+2022/12/20 18:32:30 [engine::database::connectSqlite3] Creating Database
+2022/12/20 18:32:30 [Engine::ConnectDatabase::sqlite3] file cannot be opened.
+2022/12/20 18:33:24 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:33:24 [Main:::InitLog] Time: 2022-12-20 18:33:24.656821 +0800 +08 m=+0.000509334
+2022/12/20 18:33:24 [ConnectDatabase]
+2022/12/20 18:33:24 [engine::database::connectSqlite3] Creating Database at /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 18:33:24 [Engine::ConnectDatabase::sqlite3] file cannot be opened. sql: unknown driver "sqlite3" (forgotten import?)
+2022/12/20 18:36:01 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:36:01 [Main:::InitLog] Time: 2022-12-20 18:36:01.135207 +0800 +08 m=+0.000665751
+2022/12/20 18:55:08 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:55:08 [Main:::InitLog] Time: 2022-12-20 18:55:08.556138 +0800 +08 m=+0.000838334
+2022/12/20 18:56:10 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:56:10 [Main:::InitLog] Time: 2022-12-20 18:56:10.077649 +0800 +08 m=+0.000707168
+2022/12/20 18:57:03 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:57:03 [Main:::InitLog] Time: 2022-12-20 18:57:03.473015 +0800 +08 m=+0.001453543
+2022/12/20 18:57:03 [InitEngine] &{DriverName:sqlite3 DatabaseOpts_SQL:{Path:storage/main.db}}
+2022/12/20 18:58:09 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:58:09 [Main:::InitLog] Time: 2022-12-20 18:58:09.222687 +0800 +08 m=+0.001526710
+2022/12/20 18:58:32 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:58:32 [Main:::InitLog] Time: 2022-12-20 18:58:32.510831 +0800 +08 m=+0.001254126
+2022/12/20 18:58:32 [ConnectDatabase]
+2022/12/20 18:58:32 [engine::database::connectSqlite3] connectSqlite3
+2022/12/20 18:58:32 [engine::database::connectSqlite3] Creating Database at /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 18:58:46 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:58:46 [Main:::InitLog] Time: 2022-12-20 18:58:46.518789 +0800 +08 m=+0.000838043
+2022/12/20 18:58:46 [ConnectDatabase]
+2022/12/20 18:58:46 [engine::database::connectSqlite3] connectSqlite3
+2022/12/20 18:58:46 [engine::database::connectSqlite3] Creating Database at /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 18:59:39 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 18:59:39 [Main:::InitLog] Time: 2022-12-20 18:59:39.445019 +0800 +08 m=+0.000941834
+2022/12/20 18:59:39 [ConnectDatabase]
+2022/12/20 18:59:39 [engine::database::connectSqlite3] connectSqlite3
+2022/12/20 18:59:39 [engine::database::connectSqlite3] Creating Database at /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 18:59:39 [Engine::ConnectDatabase::sqlite3] database at: /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 19:01:01 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 19:01:01 [Main:::InitLog] Time: 2022-12-20 19:01:01.897282 +0800 +08 m=+0.001650668
+2022/12/20 19:01:01 [ConnectDatabase]
+2022/12/20 19:01:01 [engine::database::connectSqlite3] connectSqlite3
+2022/12/20 19:01:01 [engine::database::connectSqlite3] Creating Database at /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 19:01:01 [Engine::ConnectDatabase::sqlite3] database at: /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 19:01:17 [Main:::InitLog] log file set to /Users/n.lim.4/github.com/foodpanda-capstone/be/logs/log.txt
+2022/12/20 19:01:17 [Main:::InitLog] Time: 2022-12-20 19:01:17.623118 +0800 +08 m=+0.001019793
+2022/12/20 19:01:17 [ConnectDatabase]
+2022/12/20 19:01:17 [engine::database::connectSqlite3] connectSqlite3
+2022/12/20 19:01:17 [engine::database::connectSqlite3] Creating Database at /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 19:01:17 [Engine::ConnectDatabase::sqlite3] database at: /Users/n.lim.4/github.com/foodpanda-capstone/be/storage/main.db
+2022/12/20 19:01:17 [engine::CloseDB]
