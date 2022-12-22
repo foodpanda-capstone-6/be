@@ -5,14 +5,18 @@ import (
 	"os"
 
 	"vms-be/engine"
+	"vms-be/engine/database"
+	"vms-be/server"
 )
 
 var engineOpt = &engine.EngineOpts{
-	LogPath: "logs/log.txt",
-	DatabaseOpts: &engine.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: engine.DatabaseOpts_SQL{
+	LogPath: "logs/engine.txt",
+	DatabaseOpts: &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
 		Path: "storage/main.db",
 	}},
 }
+
+var ServerOpts = &server.ServerOpts{Addr: ":8000"}
 
 var globalEngine *engine.Engine
 
@@ -24,18 +28,18 @@ var MAIN_COMMAND = struct {
 	SMOKE_TEST: "smoke-test",
 }
 
-func main() {
+func init() {
 
 	args := os.Args
 	var main_command string
 	args_length := len(args)
 	if args_length == 1 {
 		main_command = MAIN_COMMAND.RUN_SERVER
-		log.Printf("[main] command defaulted to: %s", main_command)
+		log.Printf("[package::init] command defaulted to: %s", main_command)
 
 	} else if args_length > 1 {
 		main_command = args[1]
-		log.Printf("[main] command: %s", main_command)
+		log.Printf("[package::init] command: %s", main_command)
 
 	}
 	switch main_command {
@@ -44,10 +48,14 @@ func main() {
 		os.Exit(0)
 	case MAIN_COMMAND.RUN_SERVER:
 		globalEngine = engine.InitEngine(engineOpt)
+		server.RunServer(ServerOpts)
 	default:
-		log.Printf("FAIL::[main] unknown command: %s", main_command)
+		log.Printf("FAIL::[package::init] unknown command: %s", main_command)
 		os.Exit(0)
 	}
+
+}
+func main() {
 
 	if globalEngine != nil {
 		defer globalEngine.TearDown()

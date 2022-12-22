@@ -1,13 +1,18 @@
 package engine
 
-import "log"
+import (
+	"database/sql"
+	"log"
+
+	"vms-be/engine/database"
+)
 
 type EngineOpts struct {
 	LogPath string
-	*DatabaseOpts
+	*database.DatabaseOpts
 }
 type Engine struct {
-	DbC *DatabaseConnection
+	DbC *sql.DB
 }
 
 func InitEngine(opts *EngineOpts) *Engine {
@@ -29,4 +34,13 @@ func (engine *Engine) closeDB() {
 func (engine *Engine) TearDown() {
 	log.Println("[engine::TearDown]")
 	go engine.closeDB()
+}
+
+func (e *Engine) ConnectDatabase(opts *database.DatabaseOpts) {
+	log.Println("[ConnectDatabase]")
+	if opts.DriverName == "sqlite3" {
+		e.DbC = database.ConnectSqlite3(opts.Path)
+	} else {
+		log.Fatalln("[Engine::ConnectDatabase] mode not specified")
+	}
 }
