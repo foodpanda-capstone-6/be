@@ -16,7 +16,7 @@ var engineOpt = &engine.EngineOpts{
 	}},
 }
 
-var ServerOpts = &server.ServerOpts{Addr: ":8000"}
+var ServerOpts = &server.ServerOpts{}
 
 var globalEngine *engine.Engine
 
@@ -48,6 +48,7 @@ func init() {
 		os.Exit(0)
 	case MAIN_COMMAND.RUN_SERVER:
 		globalEngine = engine.InitEngine(engineOpt)
+		ServerOpts.Addr = GetServerIngressPort()
 		server.RunServer(ServerOpts)
 	default:
 		log.Printf("FAIL::[package::init] unknown command: %s", main_command)
