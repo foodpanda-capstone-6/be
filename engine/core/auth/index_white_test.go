@@ -19,7 +19,7 @@ type authSuite struct {
 }
 
 func (s *authSuite) Test_TAuth_CanCreateJWT() {
-	auth := &Auth{JwtSecret: TJwtSecret{str: "Hello"}}
+	auth := &Auth{JwtSecret: "Hello"}
 	username := "username1"
 	jwtString, err := auth.getJWTString(username)
 	assert.Nil(s.T(), err)
@@ -29,7 +29,7 @@ func (s *authSuite) Test_TAuth_CanCreateJWT() {
 
 func (s *authSuite) Test_TAuth_CanCreateAndValidateJWT() {
 
-	auth := &Auth{JwtSecret: TJwtSecret{str: "Hello"}}
+	auth := &Auth{JwtSecret: "Hello"}
 	username := "username1"
 	jwtString, err := auth.getJWTString(username)
 	assert.Nil(s.T(), err)
@@ -46,19 +46,19 @@ func (s *authSuite) Test_TAuth_CanCreateAndValidateJWT() {
 }
 
 func (s *authSuite) GIVEN_Auth1() *authSuite {
-	auth := &Auth{JwtSecret: TJwtSecret{str: "secretauth1"}}
+	auth := &Auth{JwtSecret: "secretauth1"}
 	s.auth1.Auth = auth
 	return s
 }
 
 func (s *authSuite) GIVEN_Auth2() *authSuite {
-	auth := &Auth{JwtSecret: TJwtSecret{str: "secretauth2"}}
+	auth := &Auth{JwtSecret: "secretauth2"}
 	s.auth2.Auth = auth
 	return s
 }
 
 func (s *authSuite) WHEN_Auth1_2_SecretsDiffer() *authSuite {
-	assert.NotEqual(s.T(), s.auth1.JwtSecret.str, s.auth2.JwtSecret.str, "[WHEN_Auth1_2_SecretsDiffer] secrets should not be the same.")
+	assert.NotEqual(s.T(), s.auth1.JwtSecret.asByte(), s.auth2.JwtSecret.asByte(), "[WHEN_Auth1_2_SecretsDiffer] secrets should not be the same.")
 	return s
 }
 func (s *authSuite) GIVEN_JwtCreatedByAuth1() *authSuite {
@@ -79,7 +79,7 @@ func (s *authSuite) SHOULD_NotValidateByAuth2() {
 }
 
 func (s *authSuite) Test_ShouldInvalidate() {
-	s.GIVEN_Auth1().GIVEN_Auth2().GIVEN_JwtCreatedByAuth1().SHOULD_NotValidateByAuth2()
+	s.GIVEN_Auth1().GIVEN_Auth2().GIVEN_JwtCreatedByAuth1().WHEN_Auth1_2_SecretsDiffer().SHOULD_NotValidateByAuth2()
 }
 
 func TestHook(t *testing.T) {

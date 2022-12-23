@@ -8,16 +8,14 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
-type TJwtSecret struct {
-	str string
-}
+type JwtSecret string
 
-func (jwt TJwtSecret) asByte() []byte {
-	return []byte(jwt.str)
+func (jwt JwtSecret) asByte() []byte {
+	return []byte(jwt)
 }
 
 type Auth struct {
-	JwtSecret TJwtSecret
+	JwtSecret
 }
 
 func (auth *Auth) getJWTString(username string) (string, error) {
