@@ -1,0 +1,65 @@
+package routes
+
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+
+	"github.com/go-chi/chi"
+)
+
+type ControllerLogin struct {
+}
+
+func (c *ControllerLogin) Routes() chi.Router {
+	r := chi.NewRouter()
+
+	r.Post("/login", c.login)
+
+	return r
+}
+
+type ControllerLogin_LoginRequestT struct {
+	Email string
+	Password string
+}
+
+func (c *ControllerLogin) login(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("ControllerLogin.login")
+	var data ControllerLogin_LoginRequestT
+
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	log.Printf("%+v", data)
+
+	is, token := c.wo.IsAuthenticated(data.Username, data.Password)
+
+	log.Println("authE.login1")
+
+	responseJSON := &struct {
+		Token *c.Token
+	}{
+		Token: nil,
+	}
+	if is {
+		responseJSON.Token = token
+	} else {
+		status := http.StatusUnauthorized
+		http.Error(w, http.StatusText(status), status)
+	}
+
+	responseString, err := json.Marshal(responseJSON)
+	if err != nil {
+
+		status := http.StatusInternalServerError
+		http.Error(w, http.StatusText(status), status)
+		return
+	}
+	w.Write([]byte(responseString))
+	return
+
+}
