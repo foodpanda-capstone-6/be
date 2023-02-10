@@ -49,6 +49,7 @@ func init() {
 	case MAIN_COMMAND.RUN_SERVER:
 		globalEngine = engine.InitEngine(engineOpt)
 		ServerOpts.Addr = GetServerIngressPort()
+		log.Printf("[package::init] Server Address: %s", ServerOpts.Addr)
 		server.RunServer(ServerOpts)
 	default:
 		log.Printf("FAIL::[package::init] unknown command: %s", main_command)

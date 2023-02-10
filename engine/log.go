@@ -7,11 +7,11 @@ import (
 )
 
 func (m *Engine) InitLog(path string) {
-
 	fullpath, file, err := utils.OpenOrCreateFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("[Engine:::InitLog] NOTE: setting log file to %s. Redirecting logs... ", fullpath)
 
 	log.SetOutput(file)
 
