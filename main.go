@@ -4,12 +4,12 @@ import (
 	"log"
 	"os"
 
-	"vms-be/engine"
+	globallog "vms-be/globallog"
 	"vms-be/infra/database"
 	presentation "vms-be/presentation"
 )
 
-var engineOpt = &engine.EngineOpts{
+var engineOpt = &globallog.EngineOpts{
 	LogPath: "logs/engine.txt",
 	DatabaseOpts: &database.DatabaseOpts{DriverName: "sqlites3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
 		Path: "storage/main.db",
@@ -18,7 +18,7 @@ var engineOpt = &engine.EngineOpts{
 
 var ServerConfig = &presentation.Opts{}
 
-var globalEngine *engine.Engine
+var GlobalLog *globallog.GlobalLog
 
 var MAIN_COMMAND = struct {
 	RUN_SERVER string
@@ -44,10 +44,11 @@ func init() {
 	}
 	switch main_command {
 	case MAIN_COMMAND.SMOKE_TEST:
-		globalEngine = engine.InitEngine(engineOpt)
+		GlobalLog = globallog.InitGlobalLog(engineOpt)
 		os.Exit(0)
 	case MAIN_COMMAND.RUN_SERVER:
-		globalEngine = engine.InitEngine(engineOpt)
+		GlobalLog = globallog.InitGlobalLog(engineOpt)
+
 		ServerConfig.Addr = GetServerIngressPort()
 		ServerConfig.LogPath = "./logs/log-server.txt"
 		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
@@ -59,9 +60,5 @@ func init() {
 
 }
 func main() {
-
-	if globalEngine != nil {
-		defer globalEngine.TearDown()
-	}
 
 }

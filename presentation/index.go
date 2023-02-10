@@ -20,9 +20,6 @@ type Presentation struct {
 	Opts
 }
 
-type Endpoints struct {
-}
-
 func InitAndRunServer(opts *Opts) {
 	log.Println("[RunServer]")
 

@@ -13,7 +13,7 @@ import (
 
 type engineSuite struct {
 	suite.Suite
-	engine *Engine
+	engine *GlobalLog
 
 	countTest int
 }
@@ -27,7 +27,7 @@ func (suite *engineSuite) SetupTest() {
 		}},
 	}
 
-	suite.engine = InitEngine(engineOpt)
+	suite.engine = InitGlobalLog(engineOpt)
 
 	suite.countTest++
 }
