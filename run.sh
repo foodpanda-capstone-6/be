@@ -30,7 +30,7 @@ development() {
     echo "[development] building container ${image_name}"
     docker build -f Dockerfile.dev -t "${image_name}" .
 
-    if [ "$(docker images -q ${image_name} 2>/dev/null)" = "" ]; then
+    if [ "$(docker images -q "${image_name}" 2>/dev/null)" = "" ]; then
         echo "FAIL: [development] Image ${image_name} not found. Please check Docker app."
         exit 1
     else
