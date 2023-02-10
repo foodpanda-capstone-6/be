@@ -3,8 +3,8 @@ package server
 import (
 	"log"
 	"net/http"
+	controllerAuth "vms-be/presentation/controller/auth"
 	controllerHello "vms-be/presentation/controller/hello"
-	controllerStatic "vms-be/presentation/controller/static"
 	middlewares "vms-be/presentation/middlewares"
 
 	"github.com/go-chi/chi/v5"
@@ -15,17 +15,16 @@ type Opts struct {
 	Addr           string
 	LogPath        string
 	ControllerArgs struct {
-		Login struct {
-			UsingAuth
-		}
+		Hello controllerHello.Args
+		Auth  controllerAuth.Args
 	}
 }
-type UsingAuth interface {
-	Login()
-}
+
 type Presentation struct {
 	Opts
 }
+
+const STATIC_FOLDER = "./dist"
 
 func InitAndRunServer(opts *Opts) {
 	log.Println("[RunServer]")
@@ -42,10 +41,11 @@ func InitAndRunServer(opts *Opts) {
 		AllowCredentials: false,
 		MaxAge:           300,
 	}))
+	r.Route("/auth", controllerAuth.New(opts.ControllerArgs.Auth).Routes)
+	r.Route("/hello", controllerHello.New(opts.ControllerArgs.Hello).Routes)
 
-	staticRouter := controllerStatic.NewController("./dist")
-	r.Mount("/", staticRouter)
+	// staticRouter := controllerStatic.New(STATIC_FOLDER)
+	// r.Mount("/", staticRouter)
 
-	r.Mount("/hello", controllerHello.NewController().Routes())
 	http.ListenAndServe(opts.Addr, r)
 }

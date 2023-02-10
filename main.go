@@ -8,6 +8,7 @@ import (
 	"vms-be/infra/database"
 	presentation "vms-be/presentation"
 	uc_auth "vms-be/usecase/auth"
+	uc_hello "vms-be/usecase/hello"
 )
 
 var logOpts = &globallog.EngineOpts{
@@ -55,9 +56,11 @@ func init() {
 		ServerConfig.LogPath = "./logs/log-server.txt"
 		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
 
-		db, err := database.GetRepo(*DatabaseOpts)
+		ServerConfig.ControllerArgs.Hello.UseCase = uc_hello.New()
 
-		ServerConfig.ControllerArgs.Login.UsingAuth = uc_auth.New(uc_auth.Repos{Auth: db})
+		db, err := database.GetRepo(*DatabaseOpts)
+		ServerConfig.ControllerArgs.Auth.UseCase = uc_auth.New(uc_auth.Args{Repos: uc_auth.Repos{Auth: db}})
+
 		if err != nil {
 			log.Fatalf("[InitEngine] db not initialize\n")
 		}

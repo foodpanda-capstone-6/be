@@ -1,4 +1,4 @@
-package auth
+package jwt
 
 import (
 	"testing"
@@ -10,7 +10,7 @@ import (
 
 type authAndTokenStrings struct {
 	*JWT
-	tokens []string
+	tokens []JwtString
 }
 type authSuite struct {
 	suite.Suite
@@ -21,7 +21,7 @@ type authSuite struct {
 func (s *authSuite) Test_TAuth_CanCreateJWT() {
 	auth := &JWT{JwtSecret: "Hello"}
 	username := "username1"
-	jwtString, err := auth.getJWTString(username)
+	jwtString, err := auth.GenerateJWTString(username)
 	assert.Nil(s.T(), err)
 	wantJwtString := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NDQ0Nzg0MDAsInVzZXJuYW1lIjoidXNlcm5hbWUxIn0.iblKeSQ93z2aCTGia0H3DXsRcXPoKMJJ99RqBZ4yHh8"
 	assert.Equal(s.T(), wantJwtString, jwtString)
@@ -31,7 +31,7 @@ func (s *authSuite) Test_TAuth_CanCreateAndValidateJWT() {
 
 	auth := &JWT{JwtSecret: "Hello"}
 	username := "username1"
-	jwtString, err := auth.getJWTString(username)
+	jwtString, err := auth.GenerateJWTString(username)
 	assert.Nil(s.T(), err)
 
 	token, err := auth.validateTokenString(jwtString)
@@ -63,7 +63,7 @@ func (s *authSuite) WHEN_Auth1_2_SecretsDiffer() *authSuite {
 }
 func (s *authSuite) GIVEN_JwtCreatedByAuth1() *authSuite {
 
-	token, err := s.auth1.JWT.getJWTString("username1")
+	token, err := s.auth1.JWT.GenerateJWTString("username1")
 
 	assert.Nil(s.T(), err)
 	s.auth1.tokens = append(s.auth1.tokens, token)

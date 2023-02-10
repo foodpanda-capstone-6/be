@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"vms-be/utils"
 
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func NewLogger(path string) func(http.Handler) http.Handler {

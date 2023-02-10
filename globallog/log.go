@@ -11,7 +11,7 @@ func (m *GlobalLog) InitLog(path string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("[GlobalLog::InitLog] NOTE: setting log file to %s. Redirecting logs... ", fullpath)
+	log.Printf("[GlobalLog::InitLog] NOTE: setting log file... Logs redirected to to %s.", fullpath)
 
 	log.SetOutput(file)
 
