@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func NewRouterStatic(path string) chi.Router {
+func NewController(path string) chi.Router {
 	r := chi.NewRouter()
 
 	staticPath, err := filepath.Abs(path)

@@ -3,8 +3,9 @@ package server
 import (
 	"log"
 	"net/http"
-	"vms-be/server/middlewares"
-	"vms-be/server/routes"
+	controllerHello "vms-be/presentation/controller/hello"
+	controllerStatic "vms-be/presentation/controller/static"
+	middlewares "vms-be/presentation/middlewares"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -33,9 +34,9 @@ func RunServer(opts *ServerOpts) {
 		MaxAge:           300,
 	}))
 
-	staticRouter := routes.NewRouterStatic("./dist")
+	staticRouter := controllerStatic.NewController("./dist")
 	r.Mount("/", staticRouter)
 
-	r.Mount("/hello", (&routes.ControllerHello{}).Routes())
+	r.Mount("/hello", controllerHello.NewController().Routes())
 	http.ListenAndServe(opts.Addr, r)
 }

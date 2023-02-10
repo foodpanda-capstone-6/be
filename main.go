@@ -6,7 +6,7 @@ import (
 
 	"vms-be/engine"
 	"vms-be/infra/database"
-	"vms-be/server"
+	server "vms-be/presentation"
 )
 
 var engineOpt = &engine.EngineOpts{
@@ -16,7 +16,7 @@ var engineOpt = &engine.EngineOpts{
 	}},
 }
 
-var ServerOpts = &server.ServerOpts{}
+var ServerConfig = &server.ServerOpts{}
 
 var globalEngine *engine.Engine
 
@@ -48,9 +48,9 @@ func init() {
 		os.Exit(0)
 	case MAIN_COMMAND.RUN_SERVER:
 		globalEngine = engine.InitEngine(engineOpt)
-		ServerOpts.Addr = GetServerIngressPort()
-		log.Printf("[package::init] Server Address: %s", ServerOpts.Addr)
-		server.RunServer(ServerOpts)
+		ServerConfig.Addr = GetServerIngressPort()
+		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
+		server.RunServer(ServerConfig)
 	default:
 		log.Printf("FAIL::[package::init] unknown command: %s", main_command)
 		os.Exit(0)
