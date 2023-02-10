@@ -1,19 +1,16 @@
 package engine
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"testing"
-	"time"
-	"vms-be/infra/database"
 
 	"github.com/stretchr/testify/suite"
 )
 
 type engineSuite struct {
 	suite.Suite
-	engine *GlobalLog
+	Log *GlobalLog
 
 	countTest int
 }
@@ -22,12 +19,9 @@ func (suite *engineSuite) SetupTest() {
 
 	var engineOpt = &EngineOpts{
 		LogPath: "logs/engine-test.txt",
-		DatabaseOpts: &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
-			Path: fmt.Sprintf("%s%s-%03d%s", "storage/main", time.Now().Format("2006_01_02"), suite.countTest, ".db"),
-		}},
 	}
 
-	suite.engine = InitGlobalLog(engineOpt)
+	suite.Log = InitGlobalLog(engineOpt)
 
 	suite.countTest++
 }
