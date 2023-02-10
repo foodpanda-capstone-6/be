@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"vms-be/engine"
-	"vms-be/engine/database"
+	"vms-be/infra/database"
 	"vms-be/server"
 )
 

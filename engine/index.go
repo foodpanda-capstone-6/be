@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	"vms-be/engine/database"
+	"vms-be/infra/database"
 )
 
 type EngineOpts struct {

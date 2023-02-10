@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 	"time"
-	"vms-be/engine/database"
+	"vms-be/infra/database"
 
 	"github.com/stretchr/testify/suite"
 )
