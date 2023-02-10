@@ -18,7 +18,11 @@ type DatabaseOpts struct {
 	DatabaseOpts_SQL
 }
 
-func ConnectSqlite3(path string) *sql.DB {
+type Database struct {
+	*sql.DB
+}
+
+func ConnectSqlite3(path string) *Database {
 	log.Println("[engine::database::connectSqlite3] connectSqlite3")
 
 	fullpath, err := utils.GetFullPathOfPath(path)
@@ -37,8 +41,7 @@ func ConnectSqlite3(path string) *sql.DB {
 		log.Fatalln("[Engine::ConnectDatabase::sqlite3] file cannot be opened.", err)
 	} else {
 		log.Printf("[Engine::ConnectDatabase::sqlite3] database at: %s", fullpath)
-
 	}
 
-	return db
+	return &Database{DB: db}
 }
