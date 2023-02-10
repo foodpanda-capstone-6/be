@@ -2,13 +2,10 @@ package engine
 
 import (
 	"log"
-
-	"vms-be/infra/database"
 )
 
 type EngineOpts struct {
 	LogPath string
-	*database.DatabaseOpts
 }
 
 type GlobalLog struct {

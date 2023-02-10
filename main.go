@@ -9,12 +9,13 @@ import (
 	presentation "vms-be/presentation"
 )
 
-var engineOpt = &globallog.EngineOpts{
+var logOpts = &globallog.EngineOpts{
 	LogPath: "logs/engine.txt",
-	DatabaseOpts: &database.DatabaseOpts{DriverName: "sqlites3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
-		Path: "storage/main.db",
-	}},
 }
+
+var DatabaseOpts = &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
+	Path: "storage/main.db",
+}}
 
 var ServerConfig = &presentation.Opts{}
 
@@ -44,14 +45,20 @@ func init() {
 	}
 	switch main_command {
 	case MAIN_COMMAND.SMOKE_TEST:
-		GlobalLog = globallog.InitGlobalLog(engineOpt)
+		GlobalLog = globallog.InitGlobalLog(logOpts)
 		os.Exit(0)
 	case MAIN_COMMAND.RUN_SERVER:
-		GlobalLog = globallog.InitGlobalLog(engineOpt)
+		GlobalLog = globallog.InitGlobalLog(logOpts)
 
 		ServerConfig.Addr = GetServerIngressPort()
 		ServerConfig.LogPath = "./logs/log-server.txt"
 		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
+
+		_, err := database.GetRepo(*DatabaseOpts)
+		if err != nil {
+			log.Fatalf("[InitEngine] db not initialize\n")
+		}
+
 		presentation.InitAndRunServer(ServerConfig)
 	default:
 		log.Printf("FAIL::[package::init] unknown command: %s", main_command)
