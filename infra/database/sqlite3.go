@@ -19,7 +19,7 @@ type DatabaseSQLite3 struct {
 	*sql.DB
 }
 
-func (db *DatabaseSQLite3) checkEmailPassword(email, passwordHashed string) (bool, error) {
+func (db *DatabaseSQLite3) Login(email, passwordHashed string) (bool, error) {
 	err := db.QueryRow("SELECT `email` from `user` where email=? and hashed_password=?",
 		email, passwordHashed).Scan()
 	if err != nil {

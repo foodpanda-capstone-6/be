@@ -11,9 +11,11 @@ type DatabaseOpts struct {
 	DatabaseOpts_SQL
 }
 type InfraService interface {
+	InfraLoginService
 }
 
 type InfraLoginService interface {
+	Login(username, password string) (bool, error)
 }
 
 func GetRepo(opts DatabaseOpts) (InfraService, error) {

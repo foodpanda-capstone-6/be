@@ -9,7 +9,7 @@ import (
 )
 
 type authAndTokenStrings struct {
-	*Auth
+	*JWT
 	tokens []string
 }
 type authSuite struct {
@@ -19,7 +19,7 @@ type authSuite struct {
 }
 
 func (s *authSuite) Test_TAuth_CanCreateJWT() {
-	auth := &Auth{JwtSecret: "Hello"}
+	auth := &JWT{JwtSecret: "Hello"}
 	username := "username1"
 	jwtString, err := auth.getJWTString(username)
 	assert.Nil(s.T(), err)
@@ -29,7 +29,7 @@ func (s *authSuite) Test_TAuth_CanCreateJWT() {
 
 func (s *authSuite) Test_TAuth_CanCreateAndValidateJWT() {
 
-	auth := &Auth{JwtSecret: "Hello"}
+	auth := &JWT{JwtSecret: "Hello"}
 	username := "username1"
 	jwtString, err := auth.getJWTString(username)
 	assert.Nil(s.T(), err)
@@ -46,14 +46,14 @@ func (s *authSuite) Test_TAuth_CanCreateAndValidateJWT() {
 }
 
 func (s *authSuite) GIVEN_Auth1() *authSuite {
-	auth := &Auth{JwtSecret: "secretauth1"}
-	s.auth1.Auth = auth
+	auth := &JWT{JwtSecret: "secretauth1"}
+	s.auth1.JWT = auth
 	return s
 }
 
 func (s *authSuite) GIVEN_Auth2() *authSuite {
-	auth := &Auth{JwtSecret: "secretauth2"}
-	s.auth2.Auth = auth
+	auth := &JWT{JwtSecret: "secretauth2"}
+	s.auth2.JWT = auth
 	return s
 }
 
@@ -63,7 +63,7 @@ func (s *authSuite) WHEN_Auth1_2_SecretsDiffer() *authSuite {
 }
 func (s *authSuite) GIVEN_JwtCreatedByAuth1() *authSuite {
 
-	token, err := s.auth1.Auth.getJWTString("username1")
+	token, err := s.auth1.JWT.getJWTString("username1")
 
 	assert.Nil(s.T(), err)
 	s.auth1.tokens = append(s.auth1.tokens, token)
@@ -72,7 +72,7 @@ func (s *authSuite) GIVEN_JwtCreatedByAuth1() *authSuite {
 
 func (s *authSuite) SHOULD_NotValidateByAuth2() {
 
-	token, err := s.auth2.Auth.validateTokenString(s.auth1.tokens[0])
+	token, err := s.auth2.JWT.validateTokenString(s.auth1.tokens[0])
 
 	assert.NotNil(s.T(), err)
 	assert.Nil(s.T(), token)

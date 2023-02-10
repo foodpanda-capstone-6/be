@@ -14,11 +14,11 @@ func (jwt JwtSecret) asByte() []byte {
 	return []byte(jwt)
 }
 
-type Auth struct {
+type JWT struct {
 	JwtSecret
 }
 
-func (auth *Auth) getJWTString(username string) (string, error) {
+func (auth *JWT) getJWTString(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": username,
 		"iat":      time.Date(2015, 10, 10, 12, 0, 0, 0, time.UTC).Unix(),
@@ -31,7 +31,7 @@ var ErrorTokenStringSigningMethodMismatch = errors.New("token string signing met
 var ErrorInvalidToken = errors.New("ERROR: [engine::core::auth] invalid token")
 var ErrorParsingClaims = errors.New("ERROR: [engine::core::auth] error parsing claims")
 
-func (auth *Auth) validateTokenString(tokenString string) (*jwt.Token, error) {
+func (auth *JWT) validateTokenString(tokenString string) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		_, ok := token.Method.(*jwt.SigningMethodHMAC)
 		if !ok {

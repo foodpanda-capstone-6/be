@@ -12,10 +12,17 @@ import (
 )
 
 type Opts struct {
-	Addr    string
-	LogPath string
+	Addr           string
+	LogPath        string
+	ControllerArgs struct {
+		Login struct {
+			UsingAuth
+		}
+	}
 }
-
+type UsingAuth interface {
+	Login()
+}
 type Presentation struct {
 	Opts
 }
