@@ -11,19 +11,24 @@ import (
 	"github.com/go-chi/cors"
 )
 
-type ServerOpts struct {
-	Addr string
+type Opts struct {
+	Addr    string
+	LogPath string
+}
+
+type Presentation struct {
+	Opts
 }
 
 type Endpoints struct {
 }
 
-func RunServer(opts *ServerOpts) {
+func InitAndRunServer(opts *Opts) {
 	log.Println("[RunServer]")
 
 	r := chi.NewRouter()
 
-	r.Use(middlewares.NewLogger("./logs/log-server.txt"))
+	r.Use(middlewares.NewLogger(opts.LogPath))
 
 	r.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"http://*"},

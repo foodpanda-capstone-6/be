@@ -6,17 +6,17 @@ import (
 
 	"vms-be/engine"
 	"vms-be/infra/database"
-	server "vms-be/presentation"
+	presentation "vms-be/presentation"
 )
 
 var engineOpt = &engine.EngineOpts{
 	LogPath: "logs/engine.txt",
-	DatabaseOpts: &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
+	DatabaseOpts: &database.DatabaseOpts{DriverName: "sqlites3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
 		Path: "storage/main.db",
 	}},
 }
 
-var ServerConfig = &server.ServerOpts{}
+var ServerConfig = &presentation.Opts{}
 
 var globalEngine *engine.Engine
 
@@ -49,8 +49,9 @@ func init() {
 	case MAIN_COMMAND.RUN_SERVER:
 		globalEngine = engine.InitEngine(engineOpt)
 		ServerConfig.Addr = GetServerIngressPort()
+		ServerConfig.LogPath = "./logs/log-server.txt"
 		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
-		server.RunServer(ServerConfig)
+		presentation.InitAndRunServer(ServerConfig)
 	default:
 		log.Printf("FAIL::[package::init] unknown command: %s", main_command)
 		os.Exit(0)

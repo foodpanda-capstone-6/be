@@ -27,6 +27,11 @@ func InitEngine(opts *EngineOpts) *Engine {
 	engine := &Engine{}
 
 	engine.InitLog(opts.LogPath)
-	engine.Services.dbService = database.UseSqlite3(opts.DatabaseOpts.Path)
+	db, err := database.GetRepo(*opts.DatabaseOpts)
+	if err != nil {
+		log.Fatalf("[InitEngine] db not initialized\n")
+	}
+	engine.Services.dbService = db
+
 	return engine
 }
