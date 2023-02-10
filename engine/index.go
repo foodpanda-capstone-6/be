@@ -11,13 +11,14 @@ type EngineOpts struct {
 	*database.DatabaseOpts
 }
 
-type DatabaseService interface {
-	closeDB()
-}
 type Engine struct {
-	services struct {
-		dbService DatabaseService
+	Services struct {
+		dbService database.InfraService
 	}
+}
+
+func (e *Engine) TearDown() {
+
 }
 
 func InitEngine(opts *EngineOpts) *Engine {
@@ -26,6 +27,6 @@ func InitEngine(opts *EngineOpts) *Engine {
 	engine := &Engine{}
 
 	engine.InitLog(opts.LogPath)
-
+	engine.Services.dbService = database.UseSqlite3(opts.DatabaseOpts.Path)
 	return engine
 }

@@ -18,8 +18,8 @@ type Endpoints struct {
 }
 
 func RunServer(opts *ServerOpts) {
-
 	log.Println("[RunServer]")
+
 	r := chi.NewRouter()
 
 	r.Use(middlewares.NewLogger("./logs/log-server.txt"))
