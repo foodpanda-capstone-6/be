@@ -44,7 +44,12 @@ func GetToken(r *http.Request) (*string, error) {
 	return &ca.Value, nil
 }
 
-type LoginResponseBodyOk struct {
+type LoginResponse struct {
+	Data    interface{}
+	Message string
+}
+
+type Data struct {
 	token string
 }
 
@@ -64,12 +69,14 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		responseBody := fmt.Sprintf("{ \"message\": \"%v\" }", err.Error())
+		responseBody_JSON := LoginResponse{Message: err.Error()}
+		responseBody, _ := json.Marshal(responseBody_JSON)
+
 		w.Write([]byte(responseBody))
 		return
 	}
 
-	responseBody_JSON := LoginResponseBodyOk{token: jwt_String.String()}
+	responseBody_JSON := LoginResponse{Data: Data{token: jwt_String.String()}}
 
 	responseBody, err := json.Marshal(responseBody_JSON)
 
