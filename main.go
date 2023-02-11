@@ -63,7 +63,7 @@ func init() {
 
 		ServerConfig.ControllerArgs.Hello.UseCase = helloUC.New()
 
-		authInfra, err := inAuth.GetAuthRepo(*DatabaseOpts)
+		authInfra, err := inAuth.GetRepo(*DatabaseOpts)
 		authInfra.Seed("schemas/users.sql")
 
 		ucAuth := authUC.New(authUC.Args{Repos: authUC.Repos{Auth: authInfra}})

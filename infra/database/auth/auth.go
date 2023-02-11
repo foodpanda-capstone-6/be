@@ -3,8 +3,8 @@ package auth
 import (
 	"database/sql"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 )
 
@@ -38,7 +38,7 @@ type RepoSQLite3 struct {
 func (db *RepoSQLite3) Seed(schemaPath string) {
 
 	pathSchema := filepath.Join(schemaPath)
-	c, err := ioutil.ReadFile(pathSchema)
+	c, err := os.ReadFile(pathSchema)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -81,7 +81,7 @@ func (db *RepoSQLite3) Register(username, passwordHashed string) (bool, error) {
 	return true, nil
 }
 
-func GetAuthRepo(opts Opts) (InfraService, error) {
+func GetRepo(opts Opts) (InfraService, error) {
 
 	var infra InfraService
 	if opts.DriverName == "sqlite3" {
@@ -92,5 +92,5 @@ func GetAuthRepo(opts Opts) (InfraService, error) {
 		return infra, nil
 	}
 
-	return nil, fmt.Errorf("[GetAuthRepo] Invalid driver name %s \n", opts.DriverName)
+	return nil, fmt.Errorf("[GetRepo] Invalid driver name %s \n", opts.DriverName)
 }
