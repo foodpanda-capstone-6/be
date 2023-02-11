@@ -68,7 +68,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responseBody := fmt.Sprintf("{ \"token\": %v }", jwt_String.String())
+	responseBody := fmt.Sprintf("{ \"token\": \"%v\"}", jwt_String.String())
 
 	w.WriteHeader(http.StatusNotImplemented)
 	w.Write([]byte(responseBody))
