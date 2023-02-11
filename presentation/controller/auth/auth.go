@@ -45,8 +45,8 @@ func GetToken(r *http.Request) (*string, error) {
 }
 
 type LoginResponse struct {
-	Data    interface{}
-	Message string
+	Data    interface{} `json:"data"`
+	Message string      `json:"message"`
 }
 
 type Data struct {
