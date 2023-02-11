@@ -50,7 +50,7 @@ type LoginResponse struct {
 }
 
 type Data struct {
-	token string
+	Token string `json:"token"`
 }
 
 func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
