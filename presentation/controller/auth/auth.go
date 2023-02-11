@@ -63,7 +63,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		responseBody := fmt.Sprintf("{ \"message\": %v }", err.Error())
+		responseBody := fmt.Sprintf("{ \"message\": \"%v\" }", err.Error())
 		w.Write([]byte(responseBody))
 		return
 	}
