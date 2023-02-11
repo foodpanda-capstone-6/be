@@ -50,7 +50,8 @@ type LoginResponse struct {
 }
 
 type Data struct {
-	Token string `json:"token"`
+	Token    string `json:"token"`
+	Username string `json:"username"`
 }
 
 func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
@@ -76,7 +77,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responseBody_JSON := LoginResponse{Data: Data{Token: jwt_String.String()}}
+	responseBody_JSON := LoginResponse{Data: Data{Token: jwt_String.String(), Username: loginFields.Username}}
 
 	responseBody, err := json.Marshal(responseBody_JSON)
 
