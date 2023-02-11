@@ -53,7 +53,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 	loginFields, err := utils.GetUserLoginFieldsFromRequest(r)
 
 	if err != nil {
-		w.WriteHeader(http.StatusNotImplemented)
+		w.WriteHeader(http.StatusBadRequest)
 
 		responseBody := fmt.Sprintf("{ \"message\": \"%v\" }", err.Error())
 		w.Write([]byte(responseBody))
@@ -62,7 +62,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 	jwt_String, err := c.usecase.Login(loginFields)
 
 	if err != nil {
-		w.WriteHeader(http.StatusNotImplemented)
+		w.WriteHeader(http.StatusBadRequest)
 		responseBody := fmt.Sprintf("{ \"message\": \"%v\" }", err.Error())
 		w.Write([]byte(responseBody))
 		return
