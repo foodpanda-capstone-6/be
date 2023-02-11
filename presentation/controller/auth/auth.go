@@ -76,7 +76,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responseBody_JSON := LoginResponse{Data: Data{token: jwt_String.String()}}
+	responseBody_JSON := LoginResponse{Data: Data{Token: jwt_String.String()}}
 
 	responseBody, err := json.Marshal(responseBody_JSON)
 
