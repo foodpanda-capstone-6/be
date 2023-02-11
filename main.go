@@ -6,13 +6,13 @@ import (
 	"vms-be/core/entities"
 	database2 "vms-be/core/infra/database"
 	presentation "vms-be/core/presentation"
-	uc_auth "vms-be/core/usecase/auth"
-	uc_hello "vms-be/core/usecase/hello"
+	authUC "vms-be/core/usecase/auth"
+	helloUC "vms-be/core/usecase/hello"
 
-	globallog "vms-be/globallog"
+	globalLog "vms-be/globallog"
 )
 
-var logOpts = &globallog.EngineOpts{
+var logOpts = &globalLog.EngineOpts{
 	LogPath: "logs/engine.txt",
 }
 
@@ -22,14 +22,14 @@ var DatabaseOpts = &database2.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_S
 
 var ServerConfig = &presentation.Opts{}
 
-var GlobalLog *globallog.GlobalLog
+var GlobalLog *globalLog.GlobalLog
 
-var MAIN_COMMAND = struct {
-	RUN_SERVER string
-	SMOKE_TEST string
+var MainCommand = struct {
+	RunServer string
+	SmokeTest string
 }{
-	RUN_SERVER: "run-server",
-	SMOKE_TEST: "smoke-test",
+	RunServer: "run-server",
+	SmokeTest: "smoke-test",
 }
 
 func DevUsers() []entities.LoginFields {
@@ -38,32 +38,32 @@ func DevUsers() []entities.LoginFields {
 func init() {
 
 	args := os.Args
-	var main_command string
-	args_length := len(args)
-	if args_length == 1 {
-		main_command = MAIN_COMMAND.RUN_SERVER
-		log.Printf("[package::init] command defaulted to: %s", main_command)
+	var mainCommand string
+	argsLength := len(args)
+	if argsLength == 1 {
+		mainCommand = MainCommand.RunServer
+		log.Printf("[package::init] command defaulted to: %s", mainCommand)
 
-	} else if args_length > 1 {
-		main_command = args[1]
-		log.Printf("[package::init] command: %s", main_command)
+	} else if argsLength > 1 {
+		mainCommand = args[1]
+		log.Printf("[package::init] command: %s", mainCommand)
 
 	}
-	switch main_command {
-	case MAIN_COMMAND.SMOKE_TEST:
-		GlobalLog = globallog.InitGlobalLog(logOpts)
+	switch mainCommand {
+	case MainCommand.SmokeTest:
+		GlobalLog = globalLog.InitGlobalLog(logOpts)
 		os.Exit(0)
-	case MAIN_COMMAND.RUN_SERVER:
-		GlobalLog = globallog.InitGlobalLog(logOpts)
+	case MainCommand.RunServer:
+		GlobalLog = globalLog.InitGlobalLog(logOpts)
 
 		ServerConfig.Addr = GetServerIngressPort()
 		ServerConfig.LogPath = "./logs/log-server.txt"
 		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
 
-		ServerConfig.ControllerArgs.Hello.UseCase = uc_hello.New()
+		ServerConfig.ControllerArgs.Hello.UseCase = helloUC.New()
 
 		db, err := database2.GetRepo(*DatabaseOpts)
-		uc_auth := uc_auth.New(uc_auth.Args{Repos: uc_auth.Repos{Auth: db}})
+		uc_auth := authUC.New(authUC.Args{Repos: authUC.Repos{Auth: db}})
 
 		for _, loginFields := range DevUsers() {
 			uc_auth.Register(loginFields)
@@ -76,7 +76,7 @@ func init() {
 
 		presentation.InitAndRunServer(ServerConfig)
 	default:
-		log.Printf("FAIL::[package::init] unknown command: %s", main_command)
+		log.Printf("FAIL::[package::init] unknown command: %s", mainCommand)
 		os.Exit(0)
 	}
 
