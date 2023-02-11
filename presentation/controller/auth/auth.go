@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -68,9 +69,18 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responseBody := fmt.Sprintf("{ \"token\": \"%v\"}", jwt_String.String())
+	responseBody_JSON := LoginResponseBodyOk{token: jwt_String.String()}
 
-	w.WriteHeader(http.StatusNotImplemented)
+	responseBody, err := json.Marshal(responseBody_JSON)
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		responseBody := fmt.Sprintf("{ \"message\": \"%v\" }", err.Error())
+		w.Write([]byte(responseBody))
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(responseBody))
 	return
 }
