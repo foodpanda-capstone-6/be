@@ -36,7 +36,4 @@ func UseSqlite3(path string) *sql.DB {
 	}
 
 	return db
-
-	// CREATE TABLES
-
 }
