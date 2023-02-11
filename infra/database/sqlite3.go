@@ -17,6 +17,7 @@ type DatabaseOpts_SQL struct {
 
 type DatabaseSQLite3 struct {
 	*sql.DB
+	InfraService
 }
 
 func (db *DatabaseSQLite3) Login(email, passwordHashed string) (bool, error) {
