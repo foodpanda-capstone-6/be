@@ -13,7 +13,7 @@ type UseCase struct {
 }
 
 type UseCaseInterface interface {
-	Login(fields entities.LoginFields) (auth.JwtString, error)
+	Login(fields entities.LoginFields) (auth.String, error)
 }
 
 var ErrLoginFailed error = errors.New("login failed")
@@ -22,7 +22,7 @@ func hashPassword(password string) string {
 	// TODO
 	return password + "123"
 }
-func (uc *UseCase) Login(fields entities.LoginFields) (auth.JwtString, error) {
+func (uc *UseCase) Login(fields entities.LoginFields) (auth.String, error) {
 	username := fields.Username
 	hashedPassword := hashPassword(fields.Password)
 
@@ -38,7 +38,7 @@ func (uc *UseCase) Login(fields entities.LoginFields) (auth.JwtString, error) {
 	return uc.services.GenerateJWTString(username)
 }
 
-func (uc *UseCase) Register(fields entities.LoginFields) (auth.JwtString, error) {
+func (uc *UseCase) Register(fields entities.LoginFields) (auth.String, error) {
 	username := fields.Username
 	hashedPassword := hashPassword(fields.Password)
 
@@ -55,11 +55,11 @@ func (uc *UseCase) Register(fields entities.LoginFields) (auth.JwtString, error)
 }
 
 type Repos struct {
-	Auth AuthRepo
+	Auth Repo
 }
 
-type AuthRepo interface {
-	database.InfraService
+type Repo interface {
+	database.InfraAuthService
 }
 
 type Services struct {

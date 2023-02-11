@@ -10,7 +10,7 @@ import (
 
 type authAndTokenStrings struct {
 	*JWT
-	tokens []JwtString
+	tokens []String
 }
 type authSuite struct {
 	suite.Suite
@@ -19,7 +19,7 @@ type authSuite struct {
 }
 
 func (s *authSuite) Test_TAuth_CanCreateJWT() {
-	auth := &JWT{JwtSecret: "Hello"}
+	auth := &JWT{Secret: "Hello"}
 	username := "username1"
 	jwtString, err := auth.GenerateJWTString(username)
 	assert.Nil(s.T(), err)
@@ -29,7 +29,7 @@ func (s *authSuite) Test_TAuth_CanCreateJWT() {
 
 func (s *authSuite) Test_TAuth_CanCreateAndValidateJWT() {
 
-	auth := &JWT{JwtSecret: "Hello"}
+	auth := &JWT{Secret: "Hello"}
 	username := "username1"
 	jwtString, err := auth.GenerateJWTString(username)
 	assert.Nil(s.T(), err)
@@ -45,23 +45,23 @@ func (s *authSuite) Test_TAuth_CanCreateAndValidateJWT() {
 
 }
 
-func (s *authSuite) GIVEN_Auth1() *authSuite {
-	auth := &JWT{JwtSecret: "secretauth1"}
+func (s *authSuite) GivenAuth1() *authSuite {
+	auth := &JWT{Secret: "secretauth1"}
 	s.auth1.JWT = auth
 	return s
 }
 
-func (s *authSuite) GIVEN_Auth2() *authSuite {
-	auth := &JWT{JwtSecret: "secretauth2"}
+func (s *authSuite) GivenAuth2() *authSuite {
+	auth := &JWT{Secret: "secretauth2"}
 	s.auth2.JWT = auth
 	return s
 }
 
-func (s *authSuite) WHEN_Auth1_2_SecretsDiffer() *authSuite {
-	assert.NotEqual(s.T(), s.auth1.JwtSecret.asByte(), s.auth2.JwtSecret.asByte(), "[WHEN_Auth1_2_SecretsDiffer] secrets should not be the same.")
+func (s *authSuite) WhenAuth12Secretsdiffer() *authSuite {
+	assert.NotEqual(s.T(), s.auth1.Secret.asByte(), s.auth2.Secret.asByte(), "[WHEN_Auth1_2_SecretsDiffer] secrets should not be the same.")
 	return s
 }
-func (s *authSuite) GIVEN_JwtCreatedByAuth1() *authSuite {
+func (s *authSuite) GivenJwtcreatedbyauth1() *authSuite {
 
 	token, err := s.auth1.JWT.GenerateJWTString("username1")
 
@@ -70,7 +70,7 @@ func (s *authSuite) GIVEN_JwtCreatedByAuth1() *authSuite {
 	return s
 }
 
-func (s *authSuite) SHOULD_NotValidateByAuth2() {
+func (s *authSuite) ShouldNotvalidatebyauth2() {
 
 	token, err := s.auth2.JWT.validateTokenString(s.auth1.tokens[0])
 
@@ -79,7 +79,7 @@ func (s *authSuite) SHOULD_NotValidateByAuth2() {
 }
 
 func (s *authSuite) Test_ShouldInvalidate() {
-	s.GIVEN_Auth1().GIVEN_Auth2().GIVEN_JwtCreatedByAuth1().WHEN_Auth1_2_SecretsDiffer().SHOULD_NotValidateByAuth2()
+	s.GivenAuth1().GivenAuth2().GivenJwtcreatedbyauth1().WhenAuth12Secretsdiffer().ShouldNotvalidatebyauth2()
 }
 
 func TestHook(t *testing.T) {

@@ -16,7 +16,7 @@ var logOpts = &globalLog.EngineOpts{
 	LogPath: "logs/engine.txt",
 }
 
-var DatabaseOpts = &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
+var DatabaseOpts = &database.Opts{DriverName: "sqlite3", OptsSQLite3: database.OptsSQLite3{
 	Path: "storage/main.db",
 }}
 

@@ -6,11 +6,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type DatabaseOpts struct {
+type Opts struct {
 	DriverName string
-	DatabaseOpts_SQL
+	OptsSQLite3
 }
-type InfraService interface {
+type InfraAuthService interface {
 	InfraLoginAuthenticator
 	InfraUserRegister
 }
@@ -24,7 +24,7 @@ type (
 	}
 )
 
-func GetRepo(opts DatabaseOpts) (InfraService, error) {
+func GetRepo(opts Opts) (InfraAuthService, error) {
 	if opts.DriverName == "sqlite3" {
 		return UseSqlite3(opts.Path), nil
 	}

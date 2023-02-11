@@ -12,16 +12,16 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type DatabaseOpts_SQL struct {
+type OptsSQLite3 struct {
 	Path string
 }
 
-type DatabaseSQLite3 struct {
+type SQLite3 struct {
 	*sql.DB
-	InfraService
+	InfraAuthService
 }
 
-func (db *DatabaseSQLite3) Login(username, passwordHashed string) (bool, error) {
+func (db *SQLite3) Login(username, passwordHashed string) (bool, error) {
 
 	log.Printf("[Login] username: %s \n", username)
 	var ResultUsername string
@@ -38,7 +38,7 @@ func (db *DatabaseSQLite3) Login(username, passwordHashed string) (bool, error) 
 	return true, nil
 }
 
-func (db *DatabaseSQLite3) Register(username, passwordHashed string) (bool, error) {
+func (db *SQLite3) Register(username, passwordHashed string) (bool, error) {
 
 	log.Printf("[Infra::Register] username: %s \n", username)
 	err := db.QueryRow("INSERT INTO `users` (username,hashed_password) VALUES (?,?)", username, passwordHashed).Scan()
@@ -54,7 +54,7 @@ func (db *DatabaseSQLite3) Register(username, passwordHashed string) (bool, erro
 	return true, nil
 }
 
-func UseSqlite3(path string) *DatabaseSQLite3 {
+func UseSqlite3(path string) *SQLite3 {
 	log.Println("[INFRA::connectSqlite3] connectSqlite3")
 	// OPEN
 	fullpath, err := utils.GetFullPathOfPath(path)
@@ -89,5 +89,5 @@ func UseSqlite3(path string) *DatabaseSQLite3 {
 		log.Fatal(err)
 	}
 
-	return &DatabaseSQLite3{DB: db}
+	return &SQLite3{DB: db}
 }
