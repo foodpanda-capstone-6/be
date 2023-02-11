@@ -11,12 +11,18 @@ type DatabaseOpts struct {
 	DatabaseOpts_SQL
 }
 type InfraService interface {
-	InfraLoginService
+	InfraLoginAuthenticator
+	InfraUserRegister
 }
 
-type InfraLoginService interface {
-	Login(username, password string) (bool, error)
-}
+type (
+	InfraLoginAuthenticator interface {
+		Login(username, hashedPassword string) (bool, error)
+	}
+	InfraUserRegister interface {
+		Register(username, passwordHashed string) (bool, error)
+	}
+)
 
 func GetRepo(opts DatabaseOpts) (InfraService, error) {
 	if opts.DriverName == "sqlite3" {

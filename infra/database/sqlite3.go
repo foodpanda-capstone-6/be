@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -20,14 +21,34 @@ type DatabaseSQLite3 struct {
 	InfraService
 }
 
-func (db *DatabaseSQLite3) Login(email, passwordHashed string) (bool, error) {
-	err := db.QueryRow("SELECT `email` from `user` where email=? and hashed_password=?",
-		email, passwordHashed).Scan()
+func (db *DatabaseSQLite3) Login(username, passwordHashed string) (bool, error) {
+
+	log.Printf("[Login] username: %s \n", username)
+	var ResultUsername string
+	err := db.QueryRow("SELECT `username` from `users` where username=? and hashed_password=?", username, passwordHashed).Scan(&ResultUsername)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return false, fmt.Errorf("engine.login: credentials mismatched for email %s", email)
+			log.Printf("[Login] FAIL  %v \n", err)
+			return false, fmt.Errorf("[Login]: credentials mismatched for username %s", username)
 		}
-		return false, fmt.Errorf("engine.login general database error")
+		log.Printf("[Login] FAIL  %v \n", err)
+		return false, fmt.Errorf("[Login] general database error")
+	}
+
+	return true, nil
+}
+
+func (db *DatabaseSQLite3) Register(username, passwordHashed string) (bool, error) {
+
+	log.Printf("[Infra::Register] username: %s \n", username)
+	err := db.QueryRow("INSERT INTO `users` (username,hashed_password) VALUES (?,?)", username, passwordHashed).Scan()
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Printf("[Infra::Register] FAIL  %v \n", err)
+			return false, fmt.Errorf("[Infra::Register]: credentials mismatched for email %s", username)
+		}
+		log.Printf("[Infra::Register] FAIL  %v \n", err)
+		return false, fmt.Errorf("[Infra::Register] general database error")
 	}
 
 	return true, nil
@@ -35,7 +56,7 @@ func (db *DatabaseSQLite3) Login(email, passwordHashed string) (bool, error) {
 
 func UseSqlite3(path string) *DatabaseSQLite3 {
 	log.Println("[INFRA::connectSqlite3] connectSqlite3")
-
+	// OPEN
 	fullpath, err := utils.GetFullPathOfPath(path)
 	err = os.MkdirAll(filepath.Dir(fullpath), os.ModePerm)
 	if err != nil {
@@ -52,6 +73,20 @@ func UseSqlite3(path string) *DatabaseSQLite3 {
 		log.Fatalln("[INFRA::sqlite3] file cannot be opened.", err)
 	} else {
 		log.Printf("[INFRA::sqlite3] database at: %s", fullpath)
+	}
+
+	// CREATE TABLES
+
+	pathSchema := filepath.Join("schema.sql")
+
+	c, err := ioutil.ReadFile(pathSchema)
+	if err != nil {
+		log.Fatal(err)
+	}
+	sql := string(c)
+	_, err = db.Exec(sql)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	return &DatabaseSQLite3{DB: db}

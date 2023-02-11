@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"vms-be/entities"
 	globallog "vms-be/globallog"
 	"vms-be/infra/database"
 	presentation "vms-be/presentation"
@@ -31,6 +32,9 @@ var MAIN_COMMAND = struct {
 	SMOKE_TEST: "smoke-test",
 }
 
+func DevUsers() []entities.LoginFields {
+	return []entities.LoginFields{{Username: "kai", Password: "ilovepanda"}, {Username: "noel", Password: "pandaforlife"}, {Username: "naz", Password: "panda4ever"}}
+}
 func init() {
 
 	args := os.Args
@@ -59,8 +63,13 @@ func init() {
 		ServerConfig.ControllerArgs.Hello.UseCase = uc_hello.New()
 
 		db, err := database.GetRepo(*DatabaseOpts)
-		ServerConfig.ControllerArgs.Auth.UseCase = uc_auth.New(uc_auth.Args{Repos: uc_auth.Repos{Auth: db}})
+		uc_auth := uc_auth.New(uc_auth.Args{Repos: uc_auth.Repos{Auth: db}})
 
+		for _, loginFields := range DevUsers() {
+			uc_auth.Register(loginFields)
+		}
+
+		ServerConfig.ControllerArgs.Auth.UseCase = uc_auth
 		if err != nil {
 			log.Fatalf("[InitEngine] db not initialize\n")
 		}
