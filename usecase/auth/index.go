@@ -3,7 +3,7 @@ package auth
 import (
 	"errors"
 	"vms-be/entities"
-	"vms-be/infra/database"
+	inAuth "vms-be/infra/database/auth"
 	auth "vms-be/usecase/auth/jwt"
 )
 
@@ -59,7 +59,7 @@ type Repos struct {
 }
 
 type Repo interface {
-	database.InfraAuthService
+	inAuth.InfraService
 }
 
 type Services struct {

@@ -5,6 +5,7 @@ import (
 	"os"
 	"vms-be/entities"
 	"vms-be/infra/database"
+	inAuth "vms-be/infra/database/auth"
 	presentation "vms-be/presentation"
 	authUC "vms-be/usecase/auth"
 	helloUC "vms-be/usecase/hello"
@@ -62,16 +63,18 @@ func init() {
 
 		ServerConfig.ControllerArgs.Hello.UseCase = helloUC.New()
 
-		db, err := database.GetRepo(*DatabaseOpts)
-		uc_auth := authUC.New(authUC.Args{Repos: authUC.Repos{Auth: db}})
+		authInfra, err := inAuth.GetAuthRepo(*DatabaseOpts)
+		authInfra.Seed("schemas/users.sql")
+
+		ucAuth := authUC.New(authUC.Args{Repos: authUC.Repos{Auth: authInfra}})
 
 		for _, loginFields := range DevUsers() {
-			uc_auth.Register(loginFields)
+			ucAuth.Register(loginFields)
 		}
 
-		ServerConfig.ControllerArgs.Auth.UseCase = uc_auth
+		ServerConfig.ControllerArgs.Auth.UseCase = ucAuth
 		if err != nil {
-			log.Fatalf("[InitEngine] db not initialize\n")
+			log.Fatalf("[InitEngine] authInfra not initialize\n")
 		}
 
 		presentation.InitAndRunServer(ServerConfig)
