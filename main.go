@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 	"os"
+	"vms-be/core/entities"
+	database2 "vms-be/core/infra/database"
+	presentation "vms-be/core/presentation"
 
-	"vms-be/entities"
 	globallog "vms-be/globallog"
-	"vms-be/infra/database"
-	presentation "vms-be/presentation"
 	uc_auth "vms-be/usecase/auth"
 	uc_hello "vms-be/usecase/hello"
 )
@@ -16,7 +16,7 @@ var logOpts = &globallog.EngineOpts{
 	LogPath: "logs/engine.txt",
 }
 
-var DatabaseOpts = &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
+var DatabaseOpts = &database2.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database2.DatabaseOpts_SQL{
 	Path: "storage/main.db",
 }}
 
@@ -62,7 +62,7 @@ func init() {
 
 		ServerConfig.ControllerArgs.Hello.UseCase = uc_hello.New()
 
-		db, err := database.GetRepo(*DatabaseOpts)
+		db, err := database2.GetRepo(*DatabaseOpts)
 		uc_auth := uc_auth.New(uc_auth.Args{Repos: uc_auth.Repos{Auth: db}})
 
 		for _, loginFields := range DevUsers() {

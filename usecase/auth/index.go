@@ -2,8 +2,8 @@ package auth
 
 import (
 	"errors"
-	"vms-be/entities"
-	"vms-be/infra/database"
+	"vms-be/core/entities"
+	"vms-be/core/infra/database"
 	auth "vms-be/usecase/auth/jwt"
 )
 
