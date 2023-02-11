@@ -6,10 +6,10 @@ import (
 	"vms-be/core/entities"
 	database2 "vms-be/core/infra/database"
 	presentation "vms-be/core/presentation"
+	uc_auth "vms-be/core/usecase/auth"
+	uc_hello "vms-be/core/usecase/hello"
 
 	globallog "vms-be/globallog"
-	uc_auth "vms-be/usecase/auth"
-	uc_hello "vms-be/usecase/hello"
 )
 
 var logOpts = &globallog.EngineOpts{
