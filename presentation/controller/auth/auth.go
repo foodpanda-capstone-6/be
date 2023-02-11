@@ -61,8 +61,9 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		responseBody_JSON := LoginResponse{Data: Data{}, Message: err.Error()}
+		responseBody, _ := json.Marshal(responseBody_JSON)
 
-		responseBody := fmt.Sprintf("{ \"message\": \"%v\" }", err.Error())
 		w.Write([]byte(responseBody))
 		return
 	}
@@ -70,7 +71,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		responseBody_JSON := LoginResponse{Message: err.Error()}
+		responseBody_JSON := LoginResponse{Data: Data{}, Message: err.Error()}
 		responseBody, _ := json.Marshal(responseBody_JSON)
 
 		w.Write([]byte(responseBody))
