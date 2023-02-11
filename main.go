@@ -4,21 +4,24 @@ import (
 	"log"
 	"os"
 
-	"vms-be/engine"
-	"vms-be/engine/database"
-	"vms-be/server"
+	globallog "vms-be/globallog"
+	"vms-be/infra/database"
+	presentation "vms-be/presentation"
+	uc_auth "vms-be/usecase/auth"
+	uc_hello "vms-be/usecase/hello"
 )
 
-var engineOpt = &engine.EngineOpts{
+var logOpts = &globallog.EngineOpts{
 	LogPath: "logs/engine.txt",
-	DatabaseOpts: &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
-		Path: "storage/main.db",
-	}},
 }
 
-var ServerOpts = &server.ServerOpts{}
+var DatabaseOpts = &database.DatabaseOpts{DriverName: "sqlite3", DatabaseOpts_SQL: database.DatabaseOpts_SQL{
+	Path: "storage/main.db",
+}}
 
-var globalEngine *engine.Engine
+var ServerConfig = &presentation.Opts{}
+
+var GlobalLog *globallog.GlobalLog
 
 var MAIN_COMMAND = struct {
 	RUN_SERVER string
@@ -44,13 +47,25 @@ func init() {
 	}
 	switch main_command {
 	case MAIN_COMMAND.SMOKE_TEST:
-		globalEngine = engine.InitEngine(engineOpt)
+		GlobalLog = globallog.InitGlobalLog(logOpts)
 		os.Exit(0)
 	case MAIN_COMMAND.RUN_SERVER:
-		globalEngine = engine.InitEngine(engineOpt)
-		ServerOpts.Addr = GetServerIngressPort()
-		log.Printf("[package::init] Server Address: %s", ServerOpts.Addr)
-		server.RunServer(ServerOpts)
+		GlobalLog = globallog.InitGlobalLog(logOpts)
+
+		ServerConfig.Addr = GetServerIngressPort()
+		ServerConfig.LogPath = "./logs/log-server.txt"
+		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
+
+		ServerConfig.ControllerArgs.Hello.UseCase = uc_hello.New()
+
+		db, err := database.GetRepo(*DatabaseOpts)
+		ServerConfig.ControllerArgs.Auth.UseCase = uc_auth.New(uc_auth.Args{Repos: uc_auth.Repos{Auth: db}})
+
+		if err != nil {
+			log.Fatalf("[InitEngine] db not initialize\n")
+		}
+
+		presentation.InitAndRunServer(ServerConfig)
 	default:
 		log.Printf("FAIL::[package::init] unknown command: %s", main_command)
 		os.Exit(0)
@@ -58,9 +73,5 @@ func init() {
 
 }
 func main() {
-
-	if globalEngine != nil {
-		defer globalEngine.TearDown()
-	}
 
 }

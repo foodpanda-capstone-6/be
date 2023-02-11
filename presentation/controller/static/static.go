@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
-func NewRouterStatic(path string) chi.Router {
+func New(path string) chi.Router {
 	r := chi.NewRouter()
 
 	staticPath, err := filepath.Abs(path)
