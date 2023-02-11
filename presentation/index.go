@@ -5,9 +5,9 @@ import (
 	"github.com/go-chi/cors"
 	"log"
 	"net/http"
-	controllerAuth "vms-be/core/presentation/controller/auth"
-	controllerHello "vms-be/core/presentation/controller/hello"
-	"vms-be/core/presentation/middlewares"
+	controllerAuth "vms-be/presentation/controller/auth"
+	controllerHello "vms-be/presentation/controller/hello"
+	"vms-be/presentation/middlewares"
 )
 
 type Opts struct {

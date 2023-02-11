@@ -2,9 +2,9 @@ package auth
 
 import (
 	"errors"
-	"vms-be/core/entities"
-	"vms-be/core/infra/database"
-	auth "vms-be/core/usecase/auth/jwt"
+	"vms-be/entities"
+	"vms-be/infra/database"
+	auth "vms-be/usecase/auth/jwt"
 )
 
 type UseCase struct {

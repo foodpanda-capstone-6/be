@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"vms-be/core/entities"
+	"vms-be/entities"
 )
 
 func GetUserLoginFieldsFromRequest(r *http.Request) (entities.LoginFields, error) {

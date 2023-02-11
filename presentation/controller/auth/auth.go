@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"vms-be/core/presentation/utils"
-	uc_auth "vms-be/core/usecase/auth"
+	"vms-be/presentation/utils"
+	uc_auth "vms-be/usecase/auth"
 
 	"github.com/go-chi/chi/v5"
 )
