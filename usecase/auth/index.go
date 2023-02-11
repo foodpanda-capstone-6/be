@@ -38,7 +38,7 @@ type Repos struct {
 }
 
 type AuthRepo interface {
-	database.InfraLoginService
+	database.InfraService
 }
 
 type Services struct {
