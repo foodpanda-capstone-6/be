@@ -12,8 +12,9 @@ type UseCase struct {
 	services Services
 }
 
-type UseCaseInterface interface {
+type UseCaseService interface {
 	Login(fields entities.LoginFields) (auth.String, error)
+	Register(fields entities.LoginFields) (auth.String, error)
 }
 
 var ErrLoginFailed error = errors.New("login failed")
@@ -55,11 +56,7 @@ func (uc *UseCase) Register(fields entities.LoginFields) (auth.String, error) {
 }
 
 type Repos struct {
-	Auth Repo
-}
-
-type Repo interface {
-	inAuth.InfraService
+	Auth inAuth.InfraService
 }
 
 type Services struct {
@@ -70,6 +67,6 @@ type Args struct {
 	Services
 }
 
-func New(args Args) *UseCase {
+func New(args Args) UseCaseService {
 	return &UseCase{repos: args.Repos}
 }

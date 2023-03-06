@@ -6,9 +6,11 @@ import (
 	"vms-be/entities"
 	"vms-be/infra/database"
 	inAuth "vms-be/infra/database/auth"
+	inMarket "vms-be/infra/database/market"
 	presentation "vms-be/presentation"
-	authUC "vms-be/usecase/auth"
-	helloUC "vms-be/usecase/hello"
+	ucAuth "vms-be/usecase/auth"
+	ucHello "vms-be/usecase/hello"
+	ucMarket "vms-be/usecase/market"
 
 	globalLog "vms-be/globallog"
 )
@@ -61,13 +63,15 @@ func init() {
 		ServerConfig.LogPath = "./logs/log-server.txt"
 		log.Printf("[package::init] Server Address: %s", ServerConfig.Addr)
 
-		ServerConfig.ControllerArgs.Hello.UseCase = helloUC.New()
+		ServerConfig.ControllerArgs.Hello.UseCase = ucHello.New()
 
 		authInfra, err := inAuth.GetRepo(*DatabaseOpts)
+		ucAuth := ucAuth.New(ucAuth.Args{Repos: ucAuth.Repos{Auth: authInfra}})
+
+		inMarket, err := inMarket.GetRepo(*DatabaseOpts)
+		ucMarket.New(ucMarket.Args{Repos: ucMarket.Repos{Market: inMarket}})
 		authInfra.Seed("schemas/users.sql")
-
-		ucAuth := authUC.New(authUC.Args{Repos: authUC.Repos{Auth: authInfra}})
-
+		inMarket.Seed("schemas/market.sql")
 		for _, loginFields := range DevUsers() {
 			ucAuth.Register(loginFields)
 		}

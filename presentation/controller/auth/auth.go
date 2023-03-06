@@ -13,11 +13,11 @@ import (
 )
 
 type Controller struct {
-	usecase uc_auth.UseCaseInterface
+	useCase uc_auth.UseCaseService
 }
 
 type Args struct {
-	UseCase uc_auth.UseCaseInterface
+	UseCase uc_auth.UseCaseService
 }
 
 func (c *Controller) Routes(r chi.Router) {
@@ -65,7 +65,7 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(responseBody))
 		return
 	}
-	jwt_String, err := c.usecase.Login(loginFields)
+	jwt_String, err := c.useCase.Login(loginFields)
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -93,5 +93,5 @@ func (c *Controller) login(w http.ResponseWriter, r *http.Request) {
 }
 
 func New(args Args) *Controller {
-	return &Controller{usecase: args.UseCase}
+	return &Controller{useCase: args.UseCase}
 }

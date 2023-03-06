@@ -3,20 +3,17 @@ package hello
 import (
 	"log"
 	"net/http"
+	"vms-be/usecase/hello"
 
 	"github.com/go-chi/chi/v5"
 )
 
-type UseCase interface {
-	GetHelloString() string
-}
-
 type Controller struct {
-	usecase UseCase
+	useCase hello.Service
 }
 
 type Args struct {
-	UseCase
+	UseCase hello.Service
 }
 
 func (c *Controller) Routes(r chi.Router) {
@@ -28,14 +25,14 @@ func (c *Controller) Routes(r chi.Router) {
 }
 func (c *Controller) hello(w http.ResponseWriter, r *http.Request) {
 	log.Println("[ControllerHello.hello]")
-	responseString := c.usecase.GetHelloString()
+	responseString := c.useCase.GetHelloString()
 	w.Write([]byte(responseString))
 	return
 }
 
 func (c *Controller) helloSub(w http.ResponseWriter, r *http.Request) {
 	log.Println("[ControllerHello.hello]")
-	responseString := c.usecase.GetHelloString()
+	responseString := c.useCase.GetHelloString()
 	responseString = "helloSub"
 	w.Write([]byte(responseString))
 	return
@@ -43,11 +40,11 @@ func (c *Controller) helloSub(w http.ResponseWriter, r *http.Request) {
 
 func (c *Controller) helloSubSlash(w http.ResponseWriter, r *http.Request) {
 	log.Println("[ControllerHello.hello]")
-	_ = c.usecase.GetHelloString()
+	_ = c.useCase.GetHelloString()
 	w.Write([]byte("subsl"))
 	return
 }
 
 func New(arg Args) *Controller {
-	return &Controller{usecase: arg.UseCase}
+	return &Controller{useCase: arg.UseCase}
 }
