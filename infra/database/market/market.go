@@ -6,9 +6,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"vms-be/infra/database"
 )
-
-import "vms-be/infra/database"
 
 type Opts = database.Opts
 
@@ -43,13 +42,9 @@ func (db *RepoSQLite3) Seed(schemaPath string) {
 
 func GetRepo(opts Opts) (InfraService, error) {
 
-	var infra InfraService
 	if opts.DriverName == "sqlite3" {
 		db := database.UseSqlite3(opts.Path)
-		Repo := &RepoSQLite3{DB: db}
-		infra = Repo
-
-		return infra, nil
+		return &RepoSQLite3{DB: db}, nil
 	}
 
 	return nil, fmt.Errorf("[GetRepo] Invalid driver name %s \n", opts.DriverName)

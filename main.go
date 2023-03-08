@@ -65,12 +65,12 @@ func init() {
 
 		ServerConfig.ControllerArgs.Hello.UseCase = ucHello.New()
 
-		authInfra, err := inAuth.GetRepo(*DatabaseOpts)
-		ucAuth := ucAuth.New(ucAuth.Args{Repos: ucAuth.Repos{Auth: authInfra}})
+		inAuth, err := inAuth.GetRepo(*DatabaseOpts)
+		ucAuth := ucAuth.New(ucAuth.Args{Repos: ucAuth.Repos{Auth: inAuth}})
 
 		inMarket, err := inMarket.GetRepo(*DatabaseOpts)
 		ucMarket.New(ucMarket.Args{Repos: ucMarket.Repos{Market: inMarket}})
-		authInfra.Seed("schemas/users.sql")
+		inAuth.Seed("schemas/users.sql")
 		inMarket.Seed("schemas/market.sql")
 		for _, loginFields := range DevUsers() {
 			ucAuth.Register(loginFields)
