@@ -1,12 +1,16 @@
 package server
 
 import (
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/cors"
 	"log"
 	"net/http"
 	controllerAuth "vms-be/presentation/controller/auth"
+	controllerCart "vms-be/presentation/controller/cart"
 	controllerHello "vms-be/presentation/controller/hello"
+	controllerMarket "vms-be/presentation/controller/market"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
+
 	"vms-be/presentation/middlewares"
 )
 
@@ -14,8 +18,10 @@ type Opts struct {
 	Addr           string
 	LogPath        string
 	ControllerArgs struct {
-		Hello controllerHello.Args
-		Auth  controllerAuth.Args
+		Hello  controllerHello.Args
+		Auth   controllerAuth.Args
+		Market controllerMarket.Args
+		Cart   controllerCart.Args
 	}
 }
 
@@ -42,7 +48,8 @@ func InitAndRunServer(opts *Opts) {
 	}))
 	r.Route("/auth", controllerAuth.New(opts.ControllerArgs.Auth).Routes)
 	r.Route("/hello", controllerHello.New(opts.ControllerArgs.Hello).Routes)
-
+	r.Route("/market", controllerMarket.New(opts.ControllerArgs.Market).Routes)
+	r.Route("/cart", controllerCart.New(opts.ControllerArgs.Cart).Routes)
 	// staticRouter := controllerStatic.New(STATIC_FOLDER)
 	// r.Mount("/", staticRouter)
 

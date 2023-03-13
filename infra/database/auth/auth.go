@@ -6,9 +6,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"vms-be/infra/database"
 )
-
-import "vms-be/infra/database"
 
 type Opts = database.Opts
 
@@ -52,6 +51,7 @@ func (db *RepoSQLite3) Login(username, passwordHashed string) (bool, error) {
 
 	log.Printf("[Login] username: %s \n", username)
 	var ResultUsername string
+
 	err := db.QueryRow("SELECT `username` from `users` where username=? and hashed_password=?", username, passwordHashed).Scan(&ResultUsername)
 	if err != nil {
 		if err == sql.ErrNoRows {

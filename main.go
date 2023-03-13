@@ -6,9 +6,11 @@ import (
 	"vms-be/entities"
 	"vms-be/infra/database"
 	inAuth "vms-be/infra/database/auth"
+	inCart "vms-be/infra/database/cart"
 	inMarket "vms-be/infra/database/market"
 	presentation "vms-be/presentation"
 	ucAuth "vms-be/usecase/auth"
+	ucCart "vms-be/usecase/cart"
 	ucHello "vms-be/usecase/hello"
 	ucMarket "vms-be/usecase/market"
 
@@ -65,18 +67,26 @@ func init() {
 
 		ServerConfig.ControllerArgs.Hello.UseCase = ucHello.New()
 
-		authInfra, err := inAuth.GetRepo(*DatabaseOpts)
-		ucAuth := ucAuth.New(ucAuth.Args{Repos: ucAuth.Repos{Auth: authInfra}})
+		inAuth, err := inAuth.GetRepo(*DatabaseOpts)
+		ucAuth := ucAuth.New(ucAuth.Args{Repos: ucAuth.Repos{Auth: inAuth}})
 
 		inMarket, err := inMarket.GetRepo(*DatabaseOpts)
-		ucMarket.New(ucMarket.Args{Repos: ucMarket.Repos{Market: inMarket}})
-		authInfra.Seed("schemas/users.sql")
+		ucMarket := ucMarket.New(ucMarket.Args{Repos: ucMarket.Repos{Market: inMarket}})
+
+		inCart, err := inCart.GetRepo(*DatabaseOpts)
+		ucCart := ucCart.New(ucCart.Args{Repos: ucCart.Repos{Cart: inCart}})
+
+		inAuth.Seed("schemas/users.sql")
 		inMarket.Seed("schemas/market.sql")
+		inCart.Seed("schemas/cart.sql")
+
 		for _, loginFields := range DevUsers() {
 			ucAuth.Register(loginFields)
 		}
 
 		ServerConfig.ControllerArgs.Auth.UseCase = ucAuth
+		ServerConfig.ControllerArgs.Market.UseCase = ucMarket
+		ServerConfig.ControllerArgs.Cart.UseCase = ucCart
 		if err != nil {
 			log.Fatalf("[InitEngine] authInfra not initialize\n")
 		}
