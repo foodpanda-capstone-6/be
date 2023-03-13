@@ -69,7 +69,7 @@ func init() {
 		ucAuth := ucAuth.New(ucAuth.Args{Repos: ucAuth.Repos{Auth: inAuth}})
 
 		inMarket, err := inMarket.GetRepo(*DatabaseOpts)
-		ucMarket.New(ucMarket.Args{Repos: ucMarket.Repos{Market: inMarket}})
+		ucMarket := ucMarket.New(ucMarket.Args{Repos: ucMarket.Repos{Market: inMarket}})
 		inAuth.Seed("schemas/users.sql")
 		inMarket.Seed("schemas/market.sql")
 		for _, loginFields := range DevUsers() {
@@ -77,6 +77,7 @@ func init() {
 		}
 
 		ServerConfig.ControllerArgs.Auth.UseCase = ucAuth
+		ServerConfig.ControllerArgs.Market.UseCase = ucMarket
 		if err != nil {
 			log.Fatalf("[InitEngine] authInfra not initialize\n")
 		}
