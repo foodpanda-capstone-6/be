@@ -1,6 +1,7 @@
 package market
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	uccart "vms-be/usecase/cart"
@@ -13,17 +14,59 @@ type Controller struct {
 }
 
 func (c *Controller) Routes(r chi.Router) {
-	r.Post("/all", c.getAll)
-	r.Post("/add", c.add)
+	r.Get("/", c.getAll)
+	r.Post("/add", c.update)
 }
 
 func (c *Controller) getAll(w http.ResponseWriter, r *http.Request) {
-	log.Println("[ControllerCart.login]")
+	log.Println("[ControllerCart.getAll]")
+
+	username := r.URL.Query().Get("username")
+
+	cart := c.useCase.GetCart(username)
+
+	responseString, err := json.Marshal(cart)
+
+	if err != nil {
+
+		w.WriteHeader(http.StatusBadRequest)
+
+		return
+	}
+
+	log.Printf("getAll Cart %s \n", responseString)
+
+	w.Write(responseString)
+	w.WriteHeader(http.StatusOK)
 	return
 }
 
-func (c *Controller) add(w http.ResponseWriter, r *http.Request) {
-	log.Println("[ControllerCart.add]")
+func (c *Controller) update(w http.ResponseWriter, r *http.Request) {
+	log.Println("[ControllerCart.update]")
+
+	/*
+	   username: username,
+	   id: openPurchaseDrawer.id,
+	   quantity: voucherQty
+	*/
+
+	type Payload struct {
+		Id       int `json:"id"`
+		Quantity int
+		Username string
+	}
+
+	var payload Payload
+
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		log.Printf("[update cart controller] fail %s\n", err.Error())
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	log.Printf("[update cart controller]  %v\n", payload)
+	c.useCase.AddToCart(payload.Username, payload.Quantity, payload.Id)
 	w.WriteHeader(http.StatusOK)
 	return
 }

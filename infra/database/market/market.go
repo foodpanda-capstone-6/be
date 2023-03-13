@@ -46,7 +46,6 @@ func (db *RepoSQLite3) Seed(schemaPath string) {
 	}
 }
 func (db *RepoSQLite3) GetMarketVouchers() ([]entities.MarketVoucher, error) {
-	// IMPLEMENTME
 
 	log.Printf("[MarketRepo] GetMarketVouchers \n")
 	var MarketVouchers []entities.MarketVoucher

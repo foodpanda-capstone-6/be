@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS cart (
     qty INTEGER DEFAULT 0
 );
 INSERT INTO cart (username, market_voucher_id, qty)
-VALUES ("kai", 1, 1),
-    ("noel", 1, 2),
-    ("noel", 2, 3),
-    ("noel", 2, 2);
+VALUES ("kai", 12, 1),
+    ("noel", 12, 2),
+    ("noel", 22, 3),
+    ("noel", 22, 2);
