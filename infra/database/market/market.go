@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"vms-be/entities"
 	"vms-be/infra/database"
 )
 
@@ -15,10 +16,15 @@ type (
 	InfraSeeder interface {
 		Seed(schemaPath string)
 	}
+
+	MarketVoucherGetter interface {
+		GetMarketVouchers() ([]entities.MarketVoucher, error)
+	}
 )
 
 type InfraService interface {
 	InfraSeeder
+	MarketVoucherGetter
 }
 
 type RepoSQLite3 struct {
@@ -39,7 +45,10 @@ func (db *RepoSQLite3) Seed(schemaPath string) {
 		log.Fatal(err)
 	}
 }
+func (db *RepoSQLite3) GetMarketVouchers() ([]entities.MarketVoucher, error) {
 
+	return []entities.MarketVoucher{{Id: 999, Description: "hello", Amount: 100}}, nil
+}
 func GetRepo(opts Opts) (InfraService, error) {
 
 	if opts.DriverName == "sqlite3" {
