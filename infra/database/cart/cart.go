@@ -25,12 +25,17 @@ type (
 	CartGetter interface {
 		GetByUsername(username string) ([]entities.VoucherInCart, error)
 	}
+
+	CartRemover interface {
+		Remove(_ []entities.VoucherInCart) error
+	}
 )
 
 type InfraService interface {
 	InfraSeeder
 	CartAdder
 	CartGetter
+	CartRemover
 }
 
 type RepoSQLite3 struct {
@@ -101,6 +106,21 @@ func (db *RepoSQLite3) GetByUsername(username string) ([]entities.VoucherInCart,
 	}
 
 	return CartVouchers, nil
+}
+
+func (db *RepoSQLite3) Remove(ents []entities.VoucherInCart) error {
+	log.Printf("[RemoveCartRepo] \n")
+
+	if len(ents) == 0 {
+		log.Printf("[RemoveCartRepo] cart empty \n")
+
+		return nil
+	}
+
+	username := ents[0].Username
+	rows, _ := db.Query("DELETE FROM incentives WHERE username=?", username)
+	defer rows.Close()
+	return nil
 }
 
 func GetRepo(opts Opts) (InfraService, error) {

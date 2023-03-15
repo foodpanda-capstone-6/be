@@ -43,7 +43,7 @@ func (uc *UseCase) makePayment(vcs []entities.VoucherInCart) []entities.VoucherI
 	return vcs
 }
 
-func (uc *UseCase) removeVouchers(vcs []entities.VoucherInCart) {
+func (uc *UseCase) removeVouchersInCart(vcs []entities.VoucherInCart) {
 	// to do
 
 }
@@ -55,6 +55,6 @@ func (uc *UseCase) Purchase(username string) {
 
 	uc.makePayment(vcs)
 	uc.services.UcIncentive.Commission(vcs)
-	uc.removeVouchers(vcs)
+	uc.removeVouchersInCart(vcs)
 
 }
