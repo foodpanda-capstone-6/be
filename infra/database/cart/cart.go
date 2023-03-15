@@ -59,7 +59,7 @@ func (db *RepoSQLite3) Upsert(username string, quantity int, marketVoucherId int
 	err := db.QueryRow("SELECT username from `cart` where username=? and market_voucher_id=?", username, marketVoucherId).Scan(&ResultUsername)
 
 	if err == sql.ErrNoRows { // entry not exist
-		log.Printf("[Upsert] cary entry empty. attempting to insert %v \n", err)
+		log.Printf("[Upsert] cart entry empty. attempting to insert %v \n", err)
 		_ = db.QueryRow("INSERT INTO cart (username, market_voucher_id, qty) VALUES (?,?,?)", username, marketVoucherId, quantity).Scan()
 		return nil
 	}
@@ -78,12 +78,13 @@ func (db *RepoSQLite3) GetByUsername(username string) ([]entities.VoucherInCart,
 	log.Printf("[GetByUsername] cart: un %s \n", username)
 
 	rows, err := db.Query("SELECT username, market_voucher_id, qty, amount from `cart`,`market` where username=? and `cart`.`market_voucher_id` = `market`.`id`", username)
-
-	log.Printf("[GetByUsername] cart error is after attempting to get %v \n", err)
-
 	defer rows.Close()
 
-	var CartVouchers []entities.VoucherInCart
+	if err != nil {
+		log.Printf("[GetByUsername] cart error is after attempting to get %s \n", err)
+	}
+
+	var CartVouchers = make([]entities.VoucherInCart, 0)
 	for rows.Next() {
 
 		var Username string
