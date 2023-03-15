@@ -52,6 +52,7 @@ func InitAndRunServer(opts *Opts) {
 	r.Route("/hello", controllerHello.New(opts.ControllerArgs.Hello).Routes)
 	r.Route("/market", controllerMarket.New(opts.ControllerArgs.Market).Routes)
 	r.Route("/cart", controllerCart.New(opts.ControllerArgs.Cart).Routes)
+	r.Route("/incentives", controllerIncentive.New(opts.ControllerArgs.Incentive).Routes)
 	// staticRouter := controllerStatic.New(STATIC_FOLDER)
 	// r.Mount("/", staticRouter)
 
