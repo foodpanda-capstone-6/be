@@ -5,6 +5,7 @@ import (
 	"vms-be/entities"
 	cart "vms-be/infra/database/cart"
 	auth "vms-be/usecase/auth/jwt"
+	incentive "vms-be/usecase/incentive"
 	ucMarket "vms-be/usecase/market"
 )
 
@@ -14,7 +15,8 @@ type Repos struct {
 
 type Services struct {
 	auth.JWT
-	ucMarket.UseCaseService
+	ucMarket    ucMarket.UseCaseService
+	UcIncentive incentive.UseCaseService
 }
 
 type UseCase struct {
@@ -33,4 +35,26 @@ func (uc *UseCase) GetCart(username string) []entities.VoucherInCart {
 
 	vcs, _ := uc.repos.Cart.GetByUsername(username)
 	return vcs
+}
+
+func (uc *UseCase) makePayment(vcs []entities.VoucherInCart) []entities.VoucherInCart {
+	// to do
+
+	return vcs
+}
+
+func (uc *UseCase) removeVouchers(vcs []entities.VoucherInCart) {
+	// to do
+
+}
+
+func (uc *UseCase) Purchase(username string) {
+	log.Printf("[CartUseCase::Purchase] un %s  ", username)
+
+	vcs, _ := uc.repos.Cart.GetByUsername(username)
+
+	uc.makePayment(vcs)
+	uc.services.UcIncentive.Commission(vcs)
+	uc.removeVouchers(vcs)
+
 }

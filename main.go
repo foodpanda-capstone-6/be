@@ -7,11 +7,13 @@ import (
 	"vms-be/infra/database"
 	inAuth "vms-be/infra/database/auth"
 	inCart "vms-be/infra/database/cart"
+	inIncentives "vms-be/infra/database/incentives"
 	inMarket "vms-be/infra/database/market"
 	presentation "vms-be/presentation"
 	ucAuth "vms-be/usecase/auth"
 	ucCart "vms-be/usecase/cart"
 	ucHello "vms-be/usecase/hello"
+	ucIncentive "vms-be/usecase/incentive"
 	ucMarket "vms-be/usecase/market"
 
 	globalLog "vms-be/globallog"
@@ -73,11 +75,15 @@ func init() {
 		inMarket, err := inMarket.GetRepo(*DatabaseOpts)
 		ucMarket := ucMarket.New(ucMarket.Args{Repos: ucMarket.Repos{Market: inMarket}})
 
+		inIncentives, err := inIncentives.GetRepo(*DatabaseOpts)
+		ucIncentive := ucIncentive.New(ucIncentive.Args{Repos: ucIncentive.Repos{Incentives: inIncentives}})
+
 		inCart, err := inCart.GetRepo(*DatabaseOpts)
-		ucCart := ucCart.New(ucCart.Args{Repos: ucCart.Repos{Cart: inCart}})
+		ucCart := ucCart.New(ucCart.Args{Repos: ucCart.Repos{Cart: inCart}, Services: ucCart.Services{UcIncentive: ucIncentive}})
 
 		inAuth.Seed("schemas/users.sql")
 		inMarket.Seed("schemas/market.sql")
+		inIncentives.Seed("schemas/incentives.sql")
 		inCart.Seed("schemas/cart.sql")
 
 		for _, loginFields := range DevUsers() {

@@ -15,6 +15,7 @@ type Controller struct {
 
 func (c *Controller) Routes(r chi.Router) {
 	r.Get("/", c.getAll)
+	r.Post("/purchase", c.purchase)
 	r.Post("/add", c.update)
 }
 
@@ -36,6 +37,19 @@ func (c *Controller) getAll(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("getAll Cart %s \n", responseString)
 
+	w.Write(responseString)
+	w.WriteHeader(http.StatusOK)
+	return
+}
+
+func (c *Controller) purchase(w http.ResponseWriter, r *http.Request) {
+	log.Println("[ControllerCart.purchase]")
+
+	username := r.URL.Query().Get("username")
+
+	c.useCase.Purchase(username)
+
+	responseString := []byte("")
 	w.Write(responseString)
 	w.WriteHeader(http.StatusOK)
 	return

@@ -1,11 +1,9 @@
-package cart
+package incentive
 
 import "vms-be/entities"
 
 type UseCaseService interface {
-	AddToCart(username string, qty int, marketVoucherId int) error
-	GetCart(username string) []entities.VoucherInCart
-	Purchase(username string)
+	Commission(vcs []entities.VoucherInCart) error
 }
 
 type Args struct {
