@@ -58,7 +58,7 @@ func (db *RepoSQLite3) Seed(schemaPath string) {
 }
 
 func (db *RepoSQLite3) Upsert(username string, quantity int, marketVoucherId int) error {
-	log.Printf("[Upsert] cart: un %s \n", username)
+	log.Printf("[Upsert] cart: un %s %d %d --- \n", username, quantity, marketVoucherId)
 	var ResultUsername string
 
 	err := db.QueryRow("SELECT username from `cart` where username=? and market_voucher_id=?", username, marketVoucherId).Scan(&ResultUsername)
@@ -83,11 +83,10 @@ func (db *RepoSQLite3) GetByUsername(username string) ([]entities.VoucherInCart,
 	log.Printf("[GetByUsername] cart: un %s \n", username)
 
 	rows, err := db.Query("SELECT username, market_voucher_id, qty, amount from `cart`,`market` where username=? and `cart`.`market_voucher_id` = `market`.`id`", username)
-	defer rows.Close()
-
 	if err != nil {
 		log.Printf("[GetByUsername] cart error is after attempting to get %s \n", err)
 	}
+	defer rows.Close()
 
 	var CartVouchers = make([]entities.VoucherInCart, 0)
 	for rows.Next() {
@@ -116,10 +115,14 @@ func (db *RepoSQLite3) Remove(ents []entities.VoucherInCart) error {
 
 		return nil
 	}
-
 	username := ents[0].Username
-	rows, _ := db.Query("DELETE FROM cart WHERE username=?", username)
-	defer rows.Close()
+	log.Printf("[RemoveCartRepo] cart un %s\n", username)
+	_, err := db.Exec("DELETE FROM cart where username=?", username)
+	if err != nil{
+		log.Printf("error removing cart %s\n", err.Error())
+	}
+
+	log.Printf("ok removing cart \n")
 	return nil
 }
 
@@ -130,5 +133,5 @@ func GetRepo(opts Opts) (InfraService, error) {
 		return &RepoSQLite3{DB: db}, nil
 	}
 
-	return nil, fmt.Errorf("[GetRepo] Invalid driver name %s \n", opts.DriverName)
+	return nil, fmt.Errorf("[GetRepo] Invalid driver name %s", opts.DriverName)
 }

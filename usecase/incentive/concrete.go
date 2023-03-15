@@ -21,7 +21,7 @@ type UseCase struct {
 var globalIncentiveCodeSuffix int = 0
 
 func generateIncentiveCode() string {
-	code := fmt.Sprintf("PANDA%5d", globalIncentiveCodeSuffix)
+	code := fmt.Sprintf("PANDA%05d", globalIncentiveCodeSuffix)
 	globalIncentiveCodeSuffix++
 
 	return code
@@ -30,7 +30,7 @@ func generateIncentiveCode() string {
 var globalTransferCodeSuffix int = 0
 
 func generateTransferCode() string {
-	code := fmt.Sprintf("TX%5d", globalTransferCodeSuffix)
+	code := fmt.Sprintf("TX%05d", globalTransferCodeSuffix)
 	globalTransferCodeSuffix++
 
 	return code
