@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"os"
 	"path/filepath"
@@ -24,10 +25,15 @@ func UseSqlite3(path string) *sql.DB {
 	}
 
 	log.Printf("[INFRA::connectSqlite3] Creating Database at %s", fullPath)
-	_, err = os.Create(fullPath)
+
+	if _, err := os.Stat(fullPath); errors.Is(err, os.ErrNotExist) {
+		_, err = os.Create(fullPath)
+	}
+
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	db, err := sql.Open("sqlite3", fullPath)
 	if err != nil {
 		log.Fatalln("[INFRA::sqlite3] file cannot be opened.", err)
