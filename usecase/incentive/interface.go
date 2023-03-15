@@ -4,6 +4,7 @@ import "vms-be/entities"
 
 type UseCaseService interface {
 	Commission(vcs []entities.VoucherInCart) error
+	GetIncentivesOfUser(username string) []entities.Incentive
 }
 
 type Args struct {

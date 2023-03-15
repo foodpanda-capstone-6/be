@@ -21,11 +21,16 @@ type (
 	IncentiveCommissioner interface {
 		Commission(_ []entities.Incentive) error
 	}
+
+	IncentiveGetter interface {
+		GetIncentivesOfUser(username string) ([]entities.Incentive, error)
+	}
 )
 
 type InfraService interface {
 	InfraSeeder
 	IncentiveCommissioner
+	IncentiveGetter
 }
 
 type RepoSQLite3 struct {
@@ -72,6 +77,35 @@ func (db *RepoSQLite3) Commission(ins []entities.Incentive) error {
 	}
 
 	return nil
+}
+
+func (db *RepoSQLite3) GetIncentivesOfUser(username string) ([]entities.Incentive, error) {
+
+	log.Printf("[GetIncentivesOfUser] incentive: un %s \n", username)
+
+	rows, err := db.Query("SELECT id, username, incentive_code, transfer_code, value from `incentives` where username=?", username)
+	if err != nil {
+		log.Printf("[GetIncentivesOfUser] get incentives error is after attempting to get :%s \n", err)
+	}
+	defer rows.Close()
+
+	var Incentives = make([]entities.Incentive, 0)
+	for rows.Next() {
+		var Id int
+		var Username string
+		var IncentiveCode string
+		var TransferCode string
+		var Value int
+
+		err = rows.Scan(&Id, &Username, &IncentiveCode, &TransferCode, &Value)
+
+		if err != nil {
+			log.Printf("[GetByUsername] scan cart entry error is after attempting to get %v \n", err)
+		}
+		Incentives = append(Incentives, entities.Incentive{Id: Id, Username: Username, IncentiveCode: IncentiveCode, TransferCode: TransferCode, Value: Value})
+	}
+
+	return Incentives, nil
 }
 
 func GetRepo(opts Opts) (InfraService, error) {

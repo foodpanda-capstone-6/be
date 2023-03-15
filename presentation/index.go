@@ -6,6 +6,7 @@ import (
 	controllerAuth "vms-be/presentation/controller/auth"
 	controllerCart "vms-be/presentation/controller/cart"
 	controllerHello "vms-be/presentation/controller/hello"
+	controllerIncentive "vms-be/presentation/controller/incentives"
 	controllerMarket "vms-be/presentation/controller/market"
 
 	"github.com/go-chi/chi/v5"
@@ -18,10 +19,11 @@ type Opts struct {
 	Addr           string
 	LogPath        string
 	ControllerArgs struct {
-		Hello  controllerHello.Args
-		Auth   controllerAuth.Args
-		Market controllerMarket.Args
-		Cart   controllerCart.Args
+		Hello     controllerHello.Args
+		Auth      controllerAuth.Args
+		Market    controllerMarket.Args
+		Cart      controllerCart.Args
+		Incentive controllerIncentive.Args
 	}
 }
 

@@ -2,6 +2,7 @@ package incentive
 
 import (
 	"fmt"
+	"log"
 	"vms-be/entities"
 	incentives "vms-be/infra/database/incentives"
 )
@@ -59,4 +60,16 @@ func (uc *UseCase) Commission(vcs []entities.VoucherInCart) error {
 	// to do
 	uc.repos.Incentives.Commission(VouchersInCartToIncentives(vcs))
 	return nil
+}
+
+func (uc *UseCase) GetIncentivesOfUser(username string) []entities.Incentive {
+
+	ins, err := uc.repos.Incentives.GetIncentivesOfUser(username)
+
+	if err != nil {
+		log.Printf("IncentiveUseCase: Error getting Incentives %s \n", err.Error())
+	} else {
+		log.Printf("IncentiveUseCase: ok getting Incentives %v \n", ins)
+	}
+	return ins
 }

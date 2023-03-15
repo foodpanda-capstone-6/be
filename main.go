@@ -93,6 +93,7 @@ func init() {
 		ServerConfig.ControllerArgs.Auth.UseCase = ucAuth
 		ServerConfig.ControllerArgs.Market.UseCase = ucMarket
 		ServerConfig.ControllerArgs.Cart.UseCase = ucCart
+		ServerConfig.ControllerArgs.Incentive.UseCase = ucIncentive
 		if err != nil {
 			log.Fatalf("[InitEngine] authInfra not initialize\n")
 		}
