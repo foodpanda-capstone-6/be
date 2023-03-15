@@ -46,6 +46,8 @@ func (uc *UseCase) makePayment(vcs []entities.VoucherInCart) []entities.VoucherI
 func (uc *UseCase) removeVouchersInCart(vcs []entities.VoucherInCart) {
 	// to do
 
+	uc.repos.Cart.Remove(vcs)
+
 }
 
 func (uc *UseCase) Purchase(username string) {

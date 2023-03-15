@@ -118,7 +118,7 @@ func (db *RepoSQLite3) Remove(ents []entities.VoucherInCart) error {
 	}
 
 	username := ents[0].Username
-	rows, _ := db.Query("DELETE FROM incentives WHERE username=?", username)
+	rows, _ := db.Query("DELETE FROM cart WHERE username=?", username)
 	defer rows.Close()
 	return nil
 }
