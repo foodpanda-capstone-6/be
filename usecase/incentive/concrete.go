@@ -3,6 +3,7 @@ package incentive
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"vms-be/entities"
 	incentives "vms-be/infra/database/incentives"
 )
@@ -28,12 +29,25 @@ func generateIncentiveCode() string {
 	return code
 }
 
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func randSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
+func main() {
+	fmt.Println(randSeq(10))
+}
+
 var globalTransferCodeSuffix int = 0
 
 func generateTransferCode() string {
-	code := fmt.Sprintf("TX%05d", globalTransferCodeSuffix)
+	code := fmt.Sprintf("%s%05d", randSeq(5), globalTransferCodeSuffix)
 	globalTransferCodeSuffix++
-
 	return code
 }
 
@@ -57,7 +71,6 @@ func VouchersInCartToIncentives(vcs []entities.VoucherInCart) []entities.Incenti
 }
 
 func (uc *UseCase) Commission(vcs []entities.VoucherInCart) error {
-	// to do
 	uc.repos.Incentives.Commission(VouchersInCartToIncentives(vcs))
 	return nil
 }
