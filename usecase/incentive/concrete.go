@@ -76,8 +76,8 @@ func (uc *UseCase) Commission(vcs []entities.VoucherInCart) error {
 }
 
 func (uc *UseCase) Transfer(username, code string) error {
-
-	err := uc.repos.Incentives.Transfer(username, code)
+	newCode := generateTransferCode()
+	err := uc.repos.Incentives.Transfer(username, code, newCode)
 
 	if err != nil {
 		return err

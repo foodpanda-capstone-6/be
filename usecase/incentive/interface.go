@@ -5,7 +5,7 @@ import "vms-be/entities"
 type UseCaseService interface {
 	Commission(vcs []entities.VoucherInCart) error
 	GetIncentivesOfUser(username string) []entities.Incentive
-	Transfer(username, code string)
+	Transfer(username, code string) error
 }
 
 type Args struct {
