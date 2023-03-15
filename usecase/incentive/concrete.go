@@ -57,6 +57,6 @@ func VouchersInCartToIncentives(vcs []entities.VoucherInCart) []entities.Incenti
 
 func (uc *UseCase) Commission(vcs []entities.VoucherInCart) error {
 	// to do
-
+	uc.repos.Incentives.Commission(VouchersInCartToIncentives(vcs))
 	return nil
 }

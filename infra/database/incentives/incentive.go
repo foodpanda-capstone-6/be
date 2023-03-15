@@ -64,11 +64,11 @@ func EntityToEntryIncentive(entities []entities.Incentive) []entries.Incentive {
 
 func (db *RepoSQLite3) Commission(ins []entities.Incentive) error {
 
-	// log.Printf("[Upsert] incentives: un %s \n", username)
+	log.Printf("[Commission] incentives: un %v \n", ins)
 
 	incentiveEntries := EntityToEntryIncentive(ins)
 	for _, in := range incentiveEntries {
-		_ = db.QueryRow("INSERT INTO cart (username, incentive_code, transfer_code, value) VALUES (?,?,?,?)", in.Username, in.IncentiveCode, in.TransferCode, in.Value).Scan()
+		_ = db.QueryRow("INSERT INTO incentives (username, incentive_code, transfer_code, value) VALUES (?,?,?,?)", in.Username, in.IncentiveCode, in.TransferCode, in.Value).Scan()
 	}
 
 	return nil
