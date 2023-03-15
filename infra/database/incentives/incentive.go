@@ -2,6 +2,7 @@ package incentives
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -25,12 +26,16 @@ type (
 	IncentiveGetter interface {
 		GetIncentivesOfUser(username string) ([]entities.Incentive, error)
 	}
+	IncentiveTransferrer interface {
+		Transfer(username, code, newcode string) error
+	}
 )
 
 type InfraService interface {
 	InfraSeeder
 	IncentiveCommissioner
 	IncentiveGetter
+	IncentiveTransferrer
 }
 
 type RepoSQLite3 struct {
@@ -74,6 +79,29 @@ func (db *RepoSQLite3) Commission(ins []entities.Incentive) error {
 	incentiveEntries := EntityToEntryIncentive(ins)
 	for _, in := range incentiveEntries {
 		_ = db.QueryRow("INSERT INTO incentives (username, incentive_code, transfer_code, value) VALUES (?,?,?,?)", in.Username, in.IncentiveCode, in.TransferCode, in.Value).Scan()
+	}
+
+	return nil
+}
+
+func (db *RepoSQLite3) Transfer(username, transferCode, newCode string) error {
+	log.Printf("[Transfer Repo] incentives: un %s %s\n", username, transferCode)
+
+	result, err := db.Exec("UPDATE incentives SET username=?,transfer_code=? where transfer_code=?", username, newCode, transferCode)
+
+	if err != nil {
+		log.Printf("[Transfer Repo incentives] ERROR incentives: un %s %s\n", username, transferCode)
+		return err
+	}
+
+	count, err := result.RowsAffected()
+	if err != nil {
+		log.Printf("[Transfer Repo incentives] ERROR rows incentives: un %s %s\n", username, transferCode)
+		return err
+	}
+
+	if count == 0 {
+		return errors.New("Transfer not executed. may be invalid code")
 	}
 
 	return nil

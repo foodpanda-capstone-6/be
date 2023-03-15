@@ -16,7 +16,7 @@ type Controller struct {
 func (c *Controller) Routes(r chi.Router) {
 
 	r.Get("/all", c.getIncentivesOfUser)
-
+	r.Post("/transfer", c.transfer)
 }
 
 func (c *Controller) hello(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,18 @@ func (c *Controller) hello(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (c *Controller) getVoucherTypeAmount(w http.ResponseWriter, r *http.Request) {
+func (c *Controller) transfer(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("[transfer]")
+	code := r.URL.Query().Get("code")
+	username := r.URL.Query().Get("username")
+	err := c.useCase.Transfer(username, code)
+
+	if err != nil {
+		log.Printf("[transfer] error %v \n", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	return
 }
 
