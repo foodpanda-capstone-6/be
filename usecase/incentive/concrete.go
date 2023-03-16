@@ -64,7 +64,9 @@ func VouchersInCartToIncentives(vcs []entities.VoucherInCart) []entities.Incenti
 	ins := make([]entities.Incentive, 0)
 
 	for _, vc := range vcs {
-		ins = append(ins, VoucherInCartToIncentive(vc))
+		for qty := vc.Qty; qty > 0; qty-- {
+			ins = append(ins, VoucherInCartToIncentive(vc))
+		}
 	}
 
 	return ins
