@@ -51,12 +51,12 @@ func generateTransferCode() string {
 	return code
 }
 
-func VoucherInCartToIncentive(incentive entities.VoucherInCart) entities.Incentive {
+func VoucherInCartToIncentive(vIC entities.VoucherInCart) entities.Incentive {
 	return entities.Incentive{
 		IncentiveCode: generateIncentiveCode(),
 		TransferCode:  generateTransferCode(),
-		Username:      incentive.Username,
-		Value:         incentive.Amount,
+		Username:      vIC.Username,
+		Value:         vIC.Amount,
 	}
 }
 
