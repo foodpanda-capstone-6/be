@@ -118,7 +118,7 @@ func (db *RepoSQLite3) Remove(ents []entities.VoucherInCart) error {
 	username := ents[0].Username
 	log.Printf("[RemoveCartRepo] cart un %s\n", username)
 	_, err := db.Exec("DELETE FROM cart where username=?", username)
-	if err != nil{
+	if err != nil {
 		log.Printf("error removing cart %s\n", err.Error())
 	}
 

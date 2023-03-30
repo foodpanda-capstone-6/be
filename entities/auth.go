@@ -8,3 +8,5 @@ type LoginFields struct {
 func NewLoginFields(username, password string) LoginFields {
 	return LoginFields{Username: username, Password: password}
 }
+
+func (lf *LoginFields) validate() {}
